@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#50303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <!-- Happy colors -->
+    <color name="happyLightGreen">#8BC34A</color>
+    <color name="happyGreen">#4CAF50</color>
+    <color name="happyAmber">#FFC107</color>
+    <color name="happyOrange">#FF9800</color>
+    <color name="happyLightBlue">#03A9F4</color>
+    <color name="happyBlue">#2196F3</color>
+
+    <array name="happyColors">
+        <item>@color/happyLightGreen</item>
+        <item>@color/happyGreen</item>
+        <item>@color/happyAmber</item>
+        <item>@color/happyOrange</item>
+        <item>@color/happyLightBlue</item>
+        <item>@color/happyBlue</item>
+    </array>
+
+    <!-- Sad colors -->
+    <color name="sadGrey">#9E9E9E</color>
+    <color name="sadBrown">#795548</color>
+    <color name="sadLime">#AFB42B</color>
+
+    <array name="sadColors">
+        <item>@color/sadGrey</item>
+        <item>@color/sadBrown</item>
+        <item>@color/sadLime</item>
+    </array>
+</resources>
