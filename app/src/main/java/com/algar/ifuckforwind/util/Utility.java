@@ -11,6 +11,17 @@ import java.util.Random;
  */
 public class Utility {
 
+    public static int getSadColor(Context context) {
+        int[] sadColors = context.getResources().getIntArray(R.array.sadColors);
+        return sadColors[randInInterval(sadColors.length - 1)];
+    }
+
+    public static int getHappyColor(Context context) {
+        int[] happyColors = context.getResources().getIntArray(R.array.happyColors);
+
+        return happyColors[randInInterval(happyColors.length - 1)];
+    }
+
     public static String getSadString(Context context) {
         String[] sadStrings = context.getResources().getStringArray(R.array.sadStrings);
         return sadStrings[randInInterval(sadStrings.length - 1)];

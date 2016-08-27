@@ -9,14 +9,13 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@color/happyLightBlue"
-    tools:context=".activity.MainActivity$PlaceholderFragment">
+    tools:context=".fragment.SectionsPagerFragment">
 
     <TextView
         android:id="@+id/fragment_main_week_layout_textview"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="'The force is strong in you', the wind was told"
         android:textSize="50sp"
+        android:text="'The force is strong in you', the wind was told"
         android:gravity="center" />
-
 </RelativeLayout>

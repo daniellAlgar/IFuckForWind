@@ -1,11 +1,11 @@
 package com.algar.ifuckforwind.fragment;
 
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.algar.ifuckforwind.R;
@@ -22,7 +22,8 @@ public class SectionsPagerFragment extends Fragment {
     private static final String ARG_SECTION_NUMBER = "section_number";
     private int mSectionNumber;
     @BindView(R.id.fragment_main_week_layout_textview) TextView mDayMessage;
-    @BindView(R.id.fragment_main_week_layout_container) CoordinatorLayout mCoordinatorLayout;
+    @BindView(R.id.fragment_main_week_layout_container)
+    RelativeLayout mRelativeLayout;
 
     public SectionsPagerFragment() {
     }
@@ -44,8 +45,13 @@ public class SectionsPagerFragment extends Fragment {
 
         mSectionNumber = getArguments().getInt(ARG_SECTION_NUMBER);
 
-        mDayMessage.setText(Utility.randIsHappyDay()
+        boolean isHappyDay = Utility.randIsHappyDay();
+
+        mDayMessage.setText(isHappyDay
                 ? Utility.getHappyString(getContext()) : Utility.getSadString(getContext()));
+
+        if (isHappyDay) mRelativeLayout.setBackgroundColor(Utility.getHappyColor(getContext()));
+        else mRelativeLayout.setBackgroundColor(Utility.getSadColor(getContext()));
 
         return rootView;
     }
