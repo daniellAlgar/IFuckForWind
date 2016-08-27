@@ -1,5 +1,38 @@
 <resources>
     <string name="app_name">IFuckForWind</string>
     <string name="action_settings">Settings</string>
-    <string name="section_format">Hello World from section: %1$d</string>
+
+    <!-- Happy strings -->
+    <string name="happyTheForceIsStrong" translatable="true">'The force is strong in you', the wind was told</string>
+    <string name="happyBringBig" translatable="true">Good chances for wind! Bring your big one!</string>
+    <string name="happyBringSmall" translatable="true">Bring your smallest sail!</string>
+    <string name="happyFuckYeah" translatable="true">Fuck yeah!</string>
+    <string name="happyWindSmile" translatable="true">The wind brings a happy smile today!</string>
+
+    <!-- Happy string arrays -->
+    <string-array name="happy">
+        <item>@string/happyTheForceIsStrong</item>
+        <item>@string/happyBringBig</item>
+        <item>@string/happyBringSmall</item>
+        <item>@string/happyFuckYeah</item>
+        <item>@string/happyWindSmile</item>
+    </string-array>
+
+    <!-- Sad strings -->
+    <string name="sadNoWind" translatable="true">No wind in sight :(</string>
+    <string name="sadWindStill" translatable="true">The wind is still as a dead kite</string>
+    <string name="sadBetterLuck" translatable="true">Nope, better luck tomorrow!</string>
+    <string name="sadStillNo" translatable="true">Still no wind!</string>
+    <string name="sadPray" translatable="true">Let's all pray to the wind Gods</string>
+    <string name="sadWindDance" translatable="true">Let's all do the wind summoning dance!</string>
+
+    <!-- Sad string array -->
+    <string-array name="sad">
+        <item>@string/sadNoWind</item>
+        <item>@string/sadWindStill</item>
+        <item>@string/sadBetterLuck</item>
+        <item>@string/sadStillNo</item>
+        <item>@string/sadPray</item>
+        <item>@string/sadWindDance</item>
+    </string-array>
 </resources>
