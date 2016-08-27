@@ -40,19 +40,20 @@ public class SectionsPagerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        ButterKnife.bind(this, rootView);
+        View  mRootView = inflater.inflate(R.layout.fragment_main, container, false);
+        ButterKnife.bind(this, mRootView);
 
         mSectionNumber = getArguments().getInt(ARG_SECTION_NUMBER);
 
         boolean isHappyDay = Utility.randIsHappyDay();
 
         mDayMessage.setText(isHappyDay
-                ? Utility.getHappyString(getContext()) : Utility.getSadString(getContext()));
+                ? Utility.getHappyString(getContext())
+                : Utility.getSadString(getContext()));
 
         if (isHappyDay) mRelativeLayout.setBackgroundColor(Utility.getHappyColor(getContext()));
         else mRelativeLayout.setBackgroundColor(Utility.getSadColor(getContext()));
 
-        return rootView;
+        return mRootView;
     }
 }

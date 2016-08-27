@@ -18,7 +18,6 @@ public class Utility {
 
     public static int getHappyColor(Context context) {
         int[] happyColors = context.getResources().getIntArray(R.array.happyColors);
-
         return happyColors[randInInterval(happyColors.length - 1)];
     }
 
