@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.DetailActivity"
+            android:name=".activity.DetailCardActivity"
             android:screenOrientation="portrait">
         </activity>
     </application>

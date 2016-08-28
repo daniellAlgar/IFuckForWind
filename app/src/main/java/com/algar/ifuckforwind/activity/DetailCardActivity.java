@@ -10,7 +10,7 @@ import com.algar.ifuckforwind.R;
 import com.algar.ifuckforwind.adapter.DetailActivityAdapter;
 import com.algar.ifuckforwind.fragment.SectionsPagerFragment;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailCardActivity extends AppCompatActivity {
 
     private boolean mIsHappyDay;
 
@@ -21,7 +21,8 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+        setContentView(R.layout.activity_detail_card);
+        //noinspection ConstantConditions
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(getIntent().getStringExtra(SectionsPagerFragment.INTENT_EXTRA_CURRENT_DAY));
 
@@ -42,8 +43,8 @@ public class DetailActivity extends AppCompatActivity {
                 new int[]{R.drawable.getskar, R.drawable.apelviken},
                 new String[]{"Getskär", "Apelviken"},
                 new String[]{"41 km", "79 km"},
-                new String[]{"8-10 m/s", "7-13 m/s"},
-                new String[]{"9-13 m/s", "8-13 m/s"});
+                new String[]{"Midday: 8-10 m/s", "Midday: 7-13 m/s"},
+                new String[]{"Afternoon: 9-13 m/s", "Afternoon: 8-13 m/s"});
         mRecyclerView.setAdapter(mAdapter);
     }
 

@@ -13,7 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.algar.ifuckforwind.R;
-import com.algar.ifuckforwind.activity.DetailActivity;
+import com.algar.ifuckforwind.activity.DetailCardActivity;
 import com.algar.ifuckforwind.util.Utility;
 
 import butterknife.BindView;
@@ -86,7 +86,7 @@ public class SectionsPagerFragment extends Fragment {
     @OnClick(R.id.fragment_main_week_layout_container)
     public void onTabClick(View view) {
         if (mIsHappyDay) {
-            Intent detailIntent = new Intent(mContext, DetailActivity.class);
+            Intent detailIntent = new Intent(mContext, DetailCardActivity.class);
             detailIntent.putExtra(INTENT_EXTRA_IS_HAPPY_DAY, mIsHappyDay);
             detailIntent.putExtra(INTENT_EXTRA_CURRENT_DAY, mCurrentDay);
             startActivity(detailIntent);
