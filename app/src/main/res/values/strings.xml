@@ -25,6 +25,7 @@
     <string name="sadStillNo" translatable="true">Still no wind!</string>
     <string name="sadPray" translatable="true">Let\'s all pray to the wind Gods</string>
     <string name="sadWindDance" translatable="true">Let\'s all do the wind summoning dance!</string>
+    <string name="no_wind_snackbar">No wind, no details</string>
 
     <!-- Sad string array -->
     <string-array name="sadStrings">

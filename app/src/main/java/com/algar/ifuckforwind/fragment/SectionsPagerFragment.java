@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,6 +83,6 @@ public class SectionsPagerFragment extends Fragment {
             Intent detailIntent = new Intent(mContext, DetailActivity.class);
             detailIntent.putExtra(INTENT_EXTRA_IS_HAPPY_DAY, mIsHappyDay);
             startActivity(detailIntent);
-        }
+        } else Snackbar.make(getView(), R.string.no_wind_snackbar, Snackbar.LENGTH_SHORT).show();
     }
 }
