@@ -9,7 +9,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@color/happyLightBlue"
-    tools:context=".fragment.SectionsPagerFragment">
+    tools:context=".fragment.SectionsPagerFragment"
+    android:clickable="true">
 
     <TextView
         android:id="@+id/fragment_main_week_layout_textview"

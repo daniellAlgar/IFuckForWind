@@ -20,7 +20,7 @@
 
     <!-- Sad strings -->
     <string name="sadNoWind" translatable="true">No wind in sight :(</string>
-    <string name="sadWindStill" translatable="true">The wind is still as a dead kite</string>
+    <string name="sadWindDead" translatable="true">The wind is dead as a dead kite</string>
     <string name="sadBetterLuck" translatable="true">Nope, better luck tomorrow!</string>
     <string name="sadStillNo" translatable="true">Still no wind!</string>
     <string name="sadPray" translatable="true">Let\'s all pray to the wind Gods</string>
@@ -29,7 +29,7 @@
     <!-- Sad string array -->
     <string-array name="sadStrings">
         <item>@string/sadNoWind</item>
-        <item>@string/sadWindStill</item>
+        <item>@string/sadWindDead</item>
         <item>@string/sadBetterLuck</item>
         <item>@string/sadStillNo</item>
         <item>@string/sadPray</item>
