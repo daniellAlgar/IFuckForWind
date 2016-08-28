@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 
 import com.algar.ifuckforwind.R;
 import com.algar.ifuckforwind.adapter.DetailActivityAdapter;
@@ -11,7 +12,7 @@ import com.algar.ifuckforwind.fragment.SectionsPagerFragment;
 
 public class DetailActivity extends AppCompatActivity {
 
-    boolean mIsHappyDay;
+    private boolean mIsHappyDay;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -21,6 +22,8 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle(getIntent().getStringExtra(SectionsPagerFragment.INTENT_EXTRA_CURRENT_DAY));
 
         mIsHappyDay = getIntent().getBooleanExtra(SectionsPagerFragment.INTENT_EXTRA_IS_HAPPY_DAY, true);
 
@@ -38,9 +41,18 @@ public class DetailActivity extends AppCompatActivity {
         mAdapter = new DetailActivityAdapter(
                 new int[]{R.drawable.getskar, R.drawable.apelviken},
                 new String[]{"Getskär", "Apelviken"},
-                new String[]{"41", "79"},
+                new String[]{"41 km", "79 km"},
                 new String[]{"8-10 m/s", "7-13 m/s"},
                 new String[]{"9-13 m/s", "8-13 m/s"});
         mRecyclerView.setAdapter(mAdapter);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

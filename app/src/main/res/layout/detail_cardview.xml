@@ -13,7 +13,7 @@
         android:id="@+id/card_view"
         android:layout_gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="300dp"
         card_view:cardCornerRadius="4dp"
         card_view:cardElevation="6dp">
 
@@ -25,7 +25,7 @@
             <ImageView
                 android:id="@+id/detail_cardview_spot_avatar_imageview"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="130dp"
                 android:src="@drawable/getskar"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"/>
@@ -33,7 +33,8 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@color/colorPrimaryDark"/>
+                android:paddingTop="1dp"
+                android:background="@color/cardImageDivider"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

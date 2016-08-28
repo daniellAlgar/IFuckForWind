@@ -9,7 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.algar.ifuckforwind.R;
@@ -27,10 +27,13 @@ public class SectionsPagerFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
     public static final String INTENT_EXTRA_IS_HAPPY_DAY = "isHappyDay";
+    public static final String INTENT_EXTRA_CURRENT_DAY = "currentDay";
 
     private int mSectionNumber;
-    @BindView(R.id.fragment_main_week_layout_textview) TextView mDayMessage;
-    @BindView(R.id.fragment_main_week_layout_container) RelativeLayout mRelativeLayout;
+    private String mCurrentDay;
+    @BindView(R.id.fragment_main_day_textview) TextView mDay;
+    @BindView(R.id.fragment_main_day_message_textview) TextView mDayMessage;
+    @BindView(R.id.fragment_main_week_layout_container) LinearLayout mLinearLayout;
     private Context mContext;
 
     private boolean mIsHappyDay;
@@ -66,12 +69,15 @@ public class SectionsPagerFragment extends Fragment {
         View  mRootView = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, mRootView);
 
+        mCurrentDay = Utility.getPrettyDate(mSectionNumber);
+        mDay.setText(mIsHappyDay ? mCurrentDay + "!" : mCurrentDay + " :(");
+
         mDayMessage.setText(mIsHappyDay
                 ? Utility.getHappyString(getContext())
                 : Utility.getSadString(getContext()));
 
-        if (mIsHappyDay) mRelativeLayout.setBackgroundColor(Utility.getHappyColor(getContext()));
-        else mRelativeLayout.setBackgroundColor(Utility.getSadColor(getContext()));
+        if (mIsHappyDay) mLinearLayout.setBackgroundColor(Utility.getHappyColor(getContext()));
+        else mLinearLayout.setBackgroundColor(Utility.getSadColor(getContext()));
 
         return mRootView;
     }
@@ -82,6 +88,7 @@ public class SectionsPagerFragment extends Fragment {
         if (mIsHappyDay) {
             Intent detailIntent = new Intent(mContext, DetailActivity.class);
             detailIntent.putExtra(INTENT_EXTRA_IS_HAPPY_DAY, mIsHappyDay);
+            detailIntent.putExtra(INTENT_EXTRA_CURRENT_DAY, mCurrentDay);
             startActivity(detailIntent);
         } else Snackbar.make(getView(), R.string.no_wind_snackbar, Snackbar.LENGTH_SHORT).show();
     }

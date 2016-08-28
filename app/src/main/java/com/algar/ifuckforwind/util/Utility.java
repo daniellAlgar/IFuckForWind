@@ -4,12 +4,35 @@ import android.content.Context;
 
 import com.algar.ifuckforwind.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.Random;
+import java.util.TimeZone;
 
 /**
  * Created by algar on 2016-08-27.
  */
 public class Utility {
+
+    public static String getPrettyDate(int offset) {
+        switch (offset) {
+            case 0:
+                return "Today";
+            case 1:
+                return "Tomorrow";
+            default:
+                return getOffsetDate(offset);
+        }
+    }
+
+    public static String getOffsetDate(int offset) {
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTimeZone(TimeZone.getDefault());
+        calendar.add(Calendar.DAY_OF_WEEK, offset);
+        return new SimpleDateFormat("EEEE", Locale.US).format(calendar.getTime().getTime());
+    }
 
     public static int getSadColor(Context context) {
         int[] sadColors = context.getResources().getIntArray(R.array.sadColors);
