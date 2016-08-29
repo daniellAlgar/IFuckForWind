@@ -67,8 +67,8 @@ public class CardActivity extends AppCompatActivity implements DetailActivityAda
         Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
         intent.putExtra(INTENT_LOCATION_NAME, spot.getLocation());
         intent.putExtra(INTENT_LOCATION_AVATAR, spot.getAvatar());
-        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this,
-                view.findViewById(R.id.detail_cardview_spot_avatar_imageview), "transitionLocationImage");
+        ActivityOptionsCompat options =
+                ActivityOptionsCompat.makeSceneTransitionAnimation(this, view.findViewById(R.id.detail_cardview_spot_avatar_imageview), "transitionLocationImage");
         startActivity(intent, options.toBundle());
     }
 }
