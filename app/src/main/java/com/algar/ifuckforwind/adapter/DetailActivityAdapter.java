@@ -1,41 +1,37 @@
 package com.algar.ifuckforwind.adapter;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.algar.ifuckforwind.R;
+import com.algar.ifuckforwind.util.Spot;
+
+import java.util.ArrayList;
 
 /**
  * Created by algar on 2016-08-28.
  */
 public class DetailActivityAdapter extends RecyclerView.Adapter<DetailActivityAdapter.ViewHolder> {
 
-    private String[] mSpotNames;
-    private String[] mSpotDistance;
-    private String[] mSpotWindDay;
-    private String[] mSpotWindAfternoon;
-    private int[] mSpotAvatar;
-    private LinearLayout mCardViewContainer;
+//    private String[] mSpotNames;
+//    private String[] mSpotDistance;
+//    private String[] mSpotWindDay;
+//    private String[] mSpotWindAfternoon;
+//    private int[] mSpotAvatar;
     private Caller mListener;
+    private ArrayList<Spot> mSpots;
 
     public interface Caller {
-        void onItemClicked(View view);
+        void onItemClicked(Spot spot);
     }
 
-    public DetailActivityAdapter(Caller listener, int[] spotAvatar, String[] spotNames, String[] spotDistance,
-                                 String[] spotWindDay, String[] spotWindAfternoon) {
+    public DetailActivityAdapter(Caller listener, ArrayList<Spot> spot) {
         mListener = listener;
-        mSpotNames = spotNames;
-        mSpotDistance = spotDistance;
-        mSpotWindDay = spotWindDay;
-        mSpotWindAfternoon = spotWindAfternoon;
-        mSpotAvatar = spotAvatar;
+        mSpots = spot;
     }
 
     @Override
@@ -46,26 +42,29 @@ public class DetailActivityAdapter extends RecyclerView.Adapter<DetailActivityAd
 
         ViewHolder vh = new ViewHolder(itemView, new ViewHolder.ViewHolderClicks() {
             @Override
-            public void itemClicked(View view) {
-                mListener.onItemClicked(view);
+            public void itemClicked(Spot spot) {
+                mListener.onItemClicked(spot);
             }
         });
         return vh;
     }
 
 
+    private int spotAv;
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.mSpotAvatar_imageview.setImageResource(mSpotAvatar[position]);
-        holder.mSpotName_textview.setText(mSpotNames[position]);
-        holder.mSpotDistance_textview.setText(mSpotDistance[position]);
-        holder.mWindStrengthDay_textview.setText(mSpotWindDay[position]);
-        holder.mWindStrengtAfternoon_textview.setText(mSpotWindAfternoon[position]);
+        Spot spot = mSpots.get(position);
+        holder.mSpotAvatar_imageview.setImageResource(spot.getAvatar());
+        holder.mSpotName_textview.setText(spot.getLocation());
+        holder.mSpotDistance_textview.setText(spot.getDistanceTo());
+        holder.mWindStrengthDay_textview.setText(spot.getWindDay());
+        holder.mWindStrengtAfternoon_textview.setText(spot.getWindAfternoon());
+        holder.spot = spot;
     }
 
     @Override
     public int getItemCount() {
-        return mSpotNames.length;
+        return mSpots.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -76,6 +75,7 @@ public class DetailActivityAdapter extends RecyclerView.Adapter<DetailActivityAd
         public TextView mWindStrengthDay_textview;
         public TextView mWindStrengtAfternoon_textview;
         public ViewHolderClicks mListener;
+        public Spot spot;
 
         public ViewHolder(View itemView, ViewHolderClicks listener) {
             super(itemView);
@@ -90,11 +90,11 @@ public class DetailActivityAdapter extends RecyclerView.Adapter<DetailActivityAd
 
         @Override
         public void onClick(View view) {
-            mListener.itemClicked(view);
+            mListener.itemClicked(spot);
         }
 
         interface ViewHolderClicks {
-            void itemClicked(View caller);
+            void itemClicked(Spot spot);
         }
     }
 }

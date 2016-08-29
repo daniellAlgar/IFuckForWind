@@ -20,16 +20,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.DetailCardActivity"
+            android:name=".activity.CardActivity"
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.DetailActivity"
-            android:label="@string/title_activity_detail"
-            android:parentActivityName=".activity.DetailCardActivity"
+            android:parentActivityName=".activity.CardActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.algar.ifuckforwind.activity.DetailCardActivity" />
+                android:value=".activity.CardActivity" />
         </activity>
     </application>
 
