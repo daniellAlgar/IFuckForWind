@@ -2,10 +2,12 @@ package com.algar.ifuckforwind.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.algar.ifuckforwind.R;
 import com.algar.ifuckforwind.adapter.DetailActivityAdapter;
@@ -61,10 +63,12 @@ public class CardActivity extends AppCompatActivity implements DetailActivityAda
     }
 
     @Override
-    public void onItemClicked(Spot spot) {
+    public void onItemClicked(View view, Spot spot) {
         Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
         intent.putExtra(INTENT_LOCATION_NAME, spot.getLocation());
         intent.putExtra(INTENT_LOCATION_AVATAR, spot.getAvatar());
-        startActivity(intent);
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this,
+                view.findViewById(R.id.detail_cardview_spot_avatar_imageview), "transitionLocationImage");
+        startActivity(intent, options.toBundle());
     }
 }

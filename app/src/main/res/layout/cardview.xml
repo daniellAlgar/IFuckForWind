@@ -23,6 +23,7 @@
             android:layout_height="130dp"
             android:src="@drawable/getskar"
             android:adjustViewBounds="true"
+            android:transitionName="transitionLocationImage"
             android:scaleType="centerCrop"/>
 
         <View

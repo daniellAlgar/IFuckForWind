@@ -26,7 +26,7 @@ public class DetailActivityAdapter extends RecyclerView.Adapter<DetailActivityAd
     private ArrayList<Spot> mSpots;
 
     public interface Caller {
-        void onItemClicked(Spot spot);
+        void onItemClicked(View view, Spot spot);
     }
 
     public DetailActivityAdapter(Caller listener, ArrayList<Spot> spot) {
@@ -36,14 +36,14 @@ public class DetailActivityAdapter extends RecyclerView.Adapter<DetailActivityAd
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
+        final View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.cardview, parent, false);
         // set the view's size, margins, paddings and layout parameters
 
         ViewHolder vh = new ViewHolder(itemView, new ViewHolder.ViewHolderClicks() {
             @Override
-            public void itemClicked(Spot spot) {
-                mListener.onItemClicked(spot);
+            public void itemClicked(View view, Spot spot) {
+                mListener.onItemClicked(itemView, spot);
             }
         });
         return vh;
@@ -90,11 +90,11 @@ public class DetailActivityAdapter extends RecyclerView.Adapter<DetailActivityAd
 
         @Override
         public void onClick(View view) {
-            mListener.itemClicked(spot);
+            mListener.itemClicked(view, spot);
         }
 
         interface ViewHolderClicks {
-            void itemClicked(Spot spot);
+            void itemClicked(View view, Spot spot);
         }
     }
 }
