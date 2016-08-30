@@ -8,18 +8,16 @@
     <!-- Happy colors -->
     <color name="happyLightGreen">#8BC34A</color>
     <color name="happyGreen">#4CAF50</color>
-    <color name="happyAmber">#FFC107</color>
-    <color name="happyOrange">#FF9800</color>
+    <color name="happyAmber">#ffd65a</color>
+    <color name="happyYellow">#ffee00</color>
     <color name="happyLightBlue">#03A9F4</color>
-    <color name="happyBlue">#2196F3</color>
 
     <array name="happyColors">
         <item>@color/happyLightGreen</item>
         <item>@color/happyGreen</item>
         <item>@color/happyAmber</item>
-        <item>@color/happyOrange</item>
+        <item>@color/happyYellow</item>
         <item>@color/happyLightBlue</item>
-        <item>@color/happyBlue</item>
     </array>
 
     <!-- Sad colors -->

@@ -20,5 +20,6 @@
         android:id="@+id/activity_main_circle_indicator"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_gravity="center|bottom"/>
+        android:layout_gravity="center|bottom"
+        app:layout_behavior="com.algar.ifuckforwind.util.CircleIndicatorBehaviour"/>
 </android.support.design.widget.CoordinatorLayout>
