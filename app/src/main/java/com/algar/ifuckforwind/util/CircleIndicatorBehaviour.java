@@ -32,6 +32,7 @@ public class CircleIndicatorBehaviour extends CoordinatorLayout.Behavior<CircleI
         return true;
     }
 
+    // Cred to https://www.bignerdranch.com/blog/customizing-coordinatorlayouts-behavior/
     private float getCircleIndicatorTranslationYForSnackbar(CoordinatorLayout parent, CircleIndicator ci) {
         float minOffset = 0;
         final List<View> dependencies = parent.getDependencies(ci);

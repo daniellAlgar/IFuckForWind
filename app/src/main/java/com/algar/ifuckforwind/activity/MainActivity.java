@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         CircleIndicator indicator = (CircleIndicator) findViewById(R.id.activity_main_circle_indicator);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setCurrentItem(1, true);
         indicator.setViewPager(mViewPager);
     }
 }

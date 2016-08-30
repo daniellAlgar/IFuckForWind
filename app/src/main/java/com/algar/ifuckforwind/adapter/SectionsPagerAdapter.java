@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.algar.ifuckforwind.fragment.SectionsPagerFragment;
+import com.algar.ifuckforwind.fragment.SettingsFragment;
 
 /**
  * Created by algar on 2016-08-27.
@@ -18,11 +19,13 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return SectionsPagerFragment.newInstance(position);
+        return position == 0
+                ? SettingsFragment.newInstance(position)
+                : SectionsPagerFragment.newInstance(position);
     }
 
     @Override
     public int getCount() {
-        return 5;
+        return 6;
     }
 }

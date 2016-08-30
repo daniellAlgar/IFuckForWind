@@ -21,7 +21,8 @@
         </activity>
         <activity
             android:name=".activity.CardActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+        </activity>
         <activity
             android:name=".activity.DetailActivity"
             android:parentActivityName=".activity.CardActivity"

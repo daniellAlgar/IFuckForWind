@@ -71,7 +71,7 @@ public class SectionsPagerFragment extends Fragment {
         View  mRootView = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, mRootView);
 
-        mCurrentDay = Utility.getPrettyDate(mSectionNumber);
+        mCurrentDay = Utility.getPrettyDate(mSectionNumber - 1);
         mDay.setText(mIsHappyDay ? mCurrentDay + "!" : mCurrentDay + " :(");
 
         mDayMessage.setText(mIsHappyDay

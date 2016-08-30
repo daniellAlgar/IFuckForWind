@@ -5,6 +5,8 @@
     <color name="colorAccent">#FF4081</color>
     <color name="cardImageDivider">#848484</color>
     <color name="colorWhite">#ffffff</color>
+    <color name="colorSettingsBackground">#FAFAFA</color>
+
     <!-- Happy colors -->
     <color name="happyLightGreen">#8BC34A</color>
     <color name="happyGreen">#4CAF50</color>
