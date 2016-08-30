@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -34,6 +35,7 @@ public class SectionsPagerFragment extends Fragment {
     @BindView(R.id.fragment_main_day_textview) TextView mDay;
     @BindView(R.id.fragment_main_day_message_textview) TextView mDayMessage;
     @BindView(R.id.fragment_main_week_layout_container) LinearLayout mLinearLayout;
+    private CoordinatorLayout mCoordinatorLayout;
     private Context mContext;
 
     private boolean mIsHappyDay;
@@ -79,6 +81,8 @@ public class SectionsPagerFragment extends Fragment {
         if (mIsHappyDay) mLinearLayout.setBackgroundColor(Utility.getHappyColor(getContext()));
         else mLinearLayout.setBackgroundColor(Utility.getSadColor(getContext()));
 
+        mCoordinatorLayout = (CoordinatorLayout) mRootView.findViewById(R.id.main_content_coordinator_layout);
+
         return mRootView;
     }
 
@@ -90,6 +94,7 @@ public class SectionsPagerFragment extends Fragment {
             detailIntent.putExtra(INTENT_EXTRA_IS_HAPPY_DAY, mIsHappyDay);
             detailIntent.putExtra(INTENT_EXTRA_CURRENT_DAY, mCurrentDay);
             startActivity(detailIntent);
-        } else Snackbar.make(getView(), R.string.no_wind_snackbar, Snackbar.LENGTH_SHORT).show();
+        } else Snackbar.make(view.getRootView().findViewById(R.id.main_content_coordinator_layout),
+                R.string.no_wind_snackbar, Snackbar.LENGTH_SHORT).show();
     }
 }

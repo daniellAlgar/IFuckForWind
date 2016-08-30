@@ -1,6 +1,7 @@
 package com.algar.ifuckforwind.activity;
 
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
@@ -15,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     @BindView(R.id.viewpager) ViewPager mViewPager;
+    @BindView(R.id.main_content_coordinator_layout) CoordinatorLayout mCoordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -6,18 +6,14 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.algar.ifuckforwind.fragment.SectionsPagerFragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by algar on 2016-08-27.
  */
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-    private List<SectionsPagerFragment> fragments = new ArrayList<>();
-
     public SectionsPagerAdapter(FragmentManager fm) {
         super(fm);
+
     }
 
     @Override
