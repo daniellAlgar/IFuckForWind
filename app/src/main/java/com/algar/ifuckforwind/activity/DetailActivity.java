@@ -9,9 +9,13 @@ import android.widget.ImageView;
 
 import com.algar.ifuckforwind.R;
 
+import org.lucasr.dspec.DesignSpec;
+import org.lucasr.dspec.DesignSpecFrameLayout;
+
 public class DetailActivity extends AppCompatActivity {
 
     private String mSpotName;
+    private static boolean debugUI = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +23,8 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        if (debugUI) debugUI();
 
         mSpotName = getIntent().getStringExtra(CardActivity.INTENT_LOCATION_NAME);
         CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
@@ -45,5 +51,14 @@ public class DetailActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void debugUI() {
+        DesignSpecFrameLayout design = (DesignSpecFrameLayout) findViewById(R.id.activity_detail_design_spec);
+        DesignSpec designSpec = design.getDesignSpec();
+        designSpec.setBaselineGridVisible(true);
+        designSpec.setKeylinesVisible(true);
+        designSpec.addKeyline(16, DesignSpec.From.LEFT);
+        designSpec.addKeyline(16, DesignSpec.From.RIGHT);
     }
 }

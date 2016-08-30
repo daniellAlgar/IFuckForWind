@@ -9,6 +9,7 @@ import com.algar.ifuckforwind.adapter.SectionsPagerAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import me.relex.circleindicator.CircleIndicator;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,5 +25,9 @@ public class MainActivity extends AppCompatActivity {
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mSectionsPagerAdapter);
+
+        CircleIndicator indicator = (CircleIndicator) findViewById(R.id.activity_main_circle_indicator);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+        indicator.setViewPager(mViewPager);
     }
 }
