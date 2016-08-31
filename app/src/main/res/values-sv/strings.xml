@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="happyBringBig">Goda chanser för vind! Ta med din stora!</string>
+    <string name="action_settings">Inställningar</string>
+    <string name="happyBringSmall">Ta med ditt minsta segel!</string>
+    <string name="happyFuckYeah">Som faaan!</string>
+    <string name="happyTheForceIsStrong"></string>
+    <string name="happyWindSmile">Vinden ler mot oss idag :) !</string>
+    <string name="noWindSnackBar">Ingen jävla vind - inga jävla detaljer!</string>
+    <string name="sadBetterLuck">Tyvärr, bättre lycka imorgon!</string>
+    <string name="sadNoWind">Ingen vind i sikte :(</string>
+    <string name="sadPray">Låt oss alla be till vindgudarna</string>
+    <string name="sadStillNo">Fortfarande ingen vind!</string>
+    <string name="sadWindDance">Låt oss alla göra vinddansen!</string>
+    <string name="sadWindDead">Vinden är död som en död kite</string>
+</resources>

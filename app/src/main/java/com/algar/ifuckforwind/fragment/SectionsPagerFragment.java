@@ -95,6 +95,6 @@ public class SectionsPagerFragment extends Fragment {
             detailIntent.putExtra(INTENT_EXTRA_CURRENT_DAY, mCurrentDay);
             startActivity(detailIntent);
         } else Snackbar.make(view.getRootView().findViewById(R.id.main_content_coordinator_layout),
-                R.string.no_wind_snackbar, Snackbar.LENGTH_SHORT).show();
+                R.string.noWindSnackBar, Snackbar.LENGTH_SHORT).show();
     }
 }
