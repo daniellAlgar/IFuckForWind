@@ -19,23 +19,10 @@ import static org.junit.Assert.assertTrue;
 public class UtilityTest {
 
     @Test
-    public void getPrettyDate() {
-        String[] expected = {"Today", "Tomorrow", "Tuesday"};
-
-        for (int i = 0; i < 2; i++) {
-            String actual = Utility.getPrettyDate(i);
-            String errMsg = "getPrettyDate(" + i + ") should return " + expected[i] +
-                    ", but actually " + "returned " + actual + ".";
-            assertEquals(errMsg, expected[i], actual);
-        }
-    }
-
-    @Test
     public void testGetOffsetDate() {
-        int day = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
         String[] weekDays = new String[7];
 
-        switch (day) {
+        switch (Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
             case Calendar.MONDAY : weekDays = new String[] {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"}; break;
             case Calendar.TUESDAY : weekDays = new String[] {"Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Monday"}; break;
             case Calendar.WEDNESDAY : weekDays = new String[] {"Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Monday", "Tuesday"}; break;
@@ -51,12 +38,41 @@ public class UtilityTest {
     }
 
     @Test
-    public void testRandInInterval() {
-        assertTrue(Utility.randInInterval(10, 10) == 10);
+    public void getPrettyDate() {
+        // This function defaults to getoffsetDate for i > 2. Therefore it should always be tested
+        // after the getOffsetDate tests
+        String[] expected = {"Today", "Tomorrow", "Tuesday"};
 
-        for (int i = 0; i < 10; i++) {
-            assertTrue(Utility.randInInterval(i, 10) >= i);
-            assertTrue(Utility.randInInterval(i) <= i);
+        for (int i = 0; i < 2; i++) {
+            String actual = Utility.getPrettyDate(i);
+            String errMsg = "getPrettyDate(" + i + ") should return " + expected[i] +
+                    ", but actually " + "returned " + actual + ".";
+            assertEquals(errMsg, expected[i], actual);
         }
+    }
+
+    @Test
+    public void randInInterval() {
+        int max = 20;
+
+        for (int i = 0; i <= max; i++) {
+            int actual = Utility.randInInterval(i, max);
+            String errMsg = "Expected: " + i + " <= actual <= " + max + ". Actual = " + actual + ".";
+            assertTrue(errMsg, actual >= i && actual <= max);
+
+            actual = Utility.randInInterval(i);
+            errMsg = "Expected: 0 <= actual <= " + i + ". Actual = " + actual + ".";
+            assertTrue(errMsg, actual >= 0 && actual <= max);
+        }
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void randInInterval_exception() {
+        Utility.randInInterval(10, 0);
+    }
+
+    @Test
+    public void getHappyString() {
+
     }
 }
