@@ -17,9 +17,10 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(JUnit4.class)
 public class UtilityTest {
+    // TODO: Test all functions accepting Context as input parameter
 
     @Test
-    public void testGetOffsetDate() {
+    public void getOffsetDate() {
         String[] weekDays = new String[7];
 
         switch (Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
@@ -69,10 +70,5 @@ public class UtilityTest {
     @Test(expected = IllegalArgumentException.class)
     public void randInInterval_exception() {
         Utility.randInInterval(10, 0);
-    }
-
-    @Test
-    public void getHappyString() {
-
     }
 }
