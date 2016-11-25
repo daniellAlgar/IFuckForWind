@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="First section">
+
+        <CheckBoxPreference
+            android:key="checkbox_preference"
+            android:title="Checkbox pref"
+            android:defaultValue="Test"/>
+
+        <EditTextPreference
+            android:key="edittext_preference"
+            android:title="Title"
+            android:summary="Summary"
+            android:dialogTitle="Diag title"
+            android:dependency="checkbox_preference" />
+
+    </PreferenceCategory>
+</PreferenceScreen>
