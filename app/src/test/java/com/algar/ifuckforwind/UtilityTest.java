@@ -12,7 +12,7 @@ import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Created by algar on 2016-08-27.
+ * Created by algar on 2016-08-27
  */
 
 @RunWith(JUnit4.class)
