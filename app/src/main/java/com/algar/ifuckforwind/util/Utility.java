@@ -5,6 +5,8 @@ import android.content.Context;
 import com.algar.ifuckforwind.R;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
@@ -49,9 +51,32 @@ public class Utility {
         return sadStrings[randInInterval(sadStrings.length - 1)];
     }
 
+    @SuppressWarnings("unchecked")
     public static String getHappyString(Context context) {
-        String[] happyStrings = context.getResources().getStringArray(R.array.happyStrings);
-        return happyStrings[randInInterval(happyStrings.length - 1)];
+        LRUCache cache = LRUCache.getInstance();
+        String happyStringsKey = context.getString(R.string.happyStringCacheKey);
+
+        ArrayList<String> happyStrings = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.happyStrings)));
+        ArrayList<String> usedHappyStrings = (ArrayList<String>) cache.getLru().get(happyStringsKey);
+
+        if ((usedHappyStrings == null) || (usedHappyStrings.size() >= happyStrings.size())) {
+            String happyString = happyStrings.get(randInInterval(happyStrings.size() - 1));
+            ArrayList<String> toCache = new ArrayList<>();
+            toCache.add(happyString);
+            cache.getLru().put(happyStringsKey, toCache);
+            return happyString;
+        } else {
+            for (String usedString : usedHappyStrings) {
+                if (happyStrings.contains(usedString)) {
+                    happyStrings.remove(usedString);
+                }
+            }
+
+            String happyString = happyStrings.get(randInInterval(happyStrings.size() - 1));
+            usedHappyStrings.add(happyString);
+            cache.getLru().put(happyStringsKey, usedHappyStrings);
+            return happyString;
+        }
     }
 
     public static int randInInterval(int stop) {

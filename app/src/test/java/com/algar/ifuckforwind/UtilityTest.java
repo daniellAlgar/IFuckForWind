@@ -43,8 +43,10 @@ public class UtilityTest {
 
         when(context.getResources()).thenReturn(resources);
         when(context.getResources().getStringArray(R.array.happyStrings)).thenReturn(happyStrings);
+        when(context.getString(R.string.happyStringCacheKey)).thenReturn("happyStringCacheKey");
 
-        for (int i = 0; i < 5; i++) {
+        // Due to the random selection of string from the array - run the assertion n times to minimize "bad luck"
+        for (int i = 0; i < 10; i++) {
             for (String happyString : happyStrings) {
                 String s = Utility.getHappyString(context);
                 String errMsg = "String \"" + s + "\" already returned from getHappyString.";
