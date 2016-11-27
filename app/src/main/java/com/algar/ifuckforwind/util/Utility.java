@@ -12,7 +12,7 @@ import java.util.Random;
 import java.util.TimeZone;
 
 /**
- * Created by algar on 2016-08-27.
+ * Created by algar on 2016-08-27
  */
 public class Utility {
 
