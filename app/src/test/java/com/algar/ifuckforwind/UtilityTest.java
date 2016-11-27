@@ -1,23 +1,60 @@
 package com.algar.ifuckforwind;
 
+import android.content.Context;
+import android.content.res.Resources;
+
 import com.algar.ifuckforwind.util.Utility;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by algar on 2016-08-27
  */
 
-@RunWith(JUnit4.class)
+@RunWith(MockitoJUnitRunner.class)
 public class UtilityTest {
     // TODO: Test all functions accepting Context as input parameter
+
+    @Mock Context context;
+    @Mock Resources resources;
+
+    @Before
+    public void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
+    }
+
+    @Test
+    public void getHappyString_should_not_return_same_string_twice() {
+        String[] happyStrings = {"Happy_1", "Happy_2", "Happy_3", "Happy_4", "Happy_5", "Happy_6", "Happy_7"};
+        ArrayList<String> stringArrayList = new ArrayList<>();
+
+        when(context.getResources()).thenReturn(resources);
+        when(context.getResources().getStringArray(R.array.happyStrings)).thenReturn(happyStrings);
+
+        for (int i = 0; i < 5; i++) {
+            for (String happyString : happyStrings) {
+                String s = Utility.getHappyString(context);
+                String errMsg = "String \"" + s + "\" already returned from getHappyString.";
+
+                assertFalse(errMsg, stringArrayList.contains(s));
+                stringArrayList.add(s);
+            }
+            stringArrayList.clear();
+        }
+    }
 
     @Test
     public void getOffsetDate() {
