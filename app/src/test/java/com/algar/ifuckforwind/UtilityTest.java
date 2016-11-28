@@ -30,7 +30,8 @@ public class UtilityTest {
 
     @Mock Context mContext;
     @Mock Resources mResources;
-    String[] mTestStrings = {"Happy_1", "Happy_2", "Happy_3", "Happy_4", "Happy_5", "Happy_6", "Happy_7"};
+
+    String[] mTestStrings = {"String_1", "String_2", "String_3", "String_4", "String_5", "String_6", "String_7"};
     ArrayList<String> mStringArrayList;
 
     @Before
@@ -50,6 +51,7 @@ public class UtilityTest {
         mStringArrayList = new ArrayList<>();
     }
 
+    // Helper function for getSad-/HappyString assertion
     private void assertCheckForHappyAndSadString(boolean checkHappy) {
         // Due to the random selection of string from the array - run the assertion n times to minimize "bad luck"
         for (int i = 0; i < 10; i++) {
@@ -102,7 +104,7 @@ public class UtilityTest {
         for (int i = 0; i < 2; i++) {
             String actual = Utility.getPrettyDate(i);
             String errMsg = "getPrettyDate(" + i + ") should return " + expected[i] +
-                    ", but actually " + "returned " + actual + ".";
+                    ", but actually returned " + actual + ".";
             assertEquals(errMsg, expected[i], actual);
         }
     }
