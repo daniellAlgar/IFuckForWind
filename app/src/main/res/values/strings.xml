@@ -128,4 +128,5 @@
     </string>
     <string name="happyStringCacheKey">happyStringsCacheKey</string>
     <string name="sadStringCacheKey">sadStringsCacheKey</string>
+    <string name="happyColorCacheKey">happyColorCacheKey</string>
 </resources>

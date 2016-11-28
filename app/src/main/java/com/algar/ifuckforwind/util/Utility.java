@@ -6,12 +6,14 @@ import com.algar.ifuckforwind.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 import java.util.TimeZone;
+
+import static java.util.Arrays.asList;
 
 /**
  * Created by algar on 2016-08-27
@@ -42,8 +44,44 @@ public class Utility {
     }
 
     public static int getHappyColor(Context context) {
-        int[] happyColors = context.getResources().getIntArray(R.array.happyColors);
-        return happyColors[randInInterval(happyColors.length - 1)];
+        return getNextHappyOrSadColor(R.array.happyColors, R.string.happyColorCacheKey, context);
+//        int[] happyColors = context.getResources().getIntArray(R.array.happyColors);
+//        return happyColors[randInInterval(happyColors.length - 1)];
+    }
+
+    @SuppressWarnings("unchecked")
+    private static int getNextHappyOrSadColor(int intArrayId, int cacheKeyId, Context context) {
+        LRUCache cache = LRUCache.getInstance();
+
+        String cacheKey = context.getString(cacheKeyId);
+
+        int[] colors = context.getResources().getIntArray(intArrayId);
+        List<Integer> colorInts = new ArrayList<>();
+
+        for (int color : colors) {
+            colorInts.add(color);
+        }
+
+        ArrayList<Integer> usedColors = (ArrayList<Integer>) cache.getLru().get(cacheKey);
+
+        if ((usedColors == null) || (usedColors.size() >= colorInts.size())) {
+            int randColor = colorInts.get(randInInterval(colorInts.size() - 1));
+            ArrayList<Integer> toCache = new ArrayList<>();
+            toCache.add(randColor);
+            cache.getLru().put(cacheKey, toCache);
+            return randColor;
+        } else {
+            for (Integer usedString : usedColors) {
+                if (colorInts.contains(usedString)) {
+                    colorInts.remove(usedString);
+                }
+            }
+
+            int randColor = colorInts.get(randInInterval(colorInts.size() - 1));
+            usedColors.add(randColor);
+            cache.getLru().put(cacheKey, usedColors);
+            return randColor;
+        }
     }
 
     public static String getSadString(Context context) {
@@ -60,7 +98,7 @@ public class Utility {
 
         String cacheKey = context.getString(cacheKeyId);
 
-        ArrayList<String> happyStrings = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(stringArrayId)));
+        ArrayList<String> happyStrings = new ArrayList<>(asList(context.getResources().getStringArray(stringArrayId)));
         ArrayList<String> usedHappyStrings = (ArrayList<String>) cache.getLru().get(cacheKey);
 
         if ((usedHappyStrings == null) || (usedHappyStrings.size() >= happyStrings.size())) {

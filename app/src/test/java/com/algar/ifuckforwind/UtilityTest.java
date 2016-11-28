@@ -2,6 +2,7 @@ package com.algar.ifuckforwind;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
 
 import com.algar.ifuckforwind.util.Utility;
 
@@ -31,8 +32,10 @@ public class UtilityTest {
     @Mock Context mContext;
     @Mock Resources mResources;
 
-    String[] mTestStrings = {"String_1", "String_2", "String_3", "String_4", "String_5", "String_6", "String_7"};
+    String[] mTestStrings = {"String_1", "String_2", "String_3", "String_4", "String_5", "String_6", "String_7", "String_8"};
+    int[] colors = {Color.RED, Color.BLACK, Color.BLUE, Color.CYAN, Color.GRAY, Color.GREEN, Color.MAGENTA};
     ArrayList<String> mStringArrayList;
+    ArrayList<Integer> mIntArraylist;
 
     @Before
     public void setUp() throws Exception {
@@ -48,7 +51,27 @@ public class UtilityTest {
         when(mContext.getResources().getStringArray(R.array.sadStrings)).thenReturn(mTestStrings);
         when(mContext.getString(R.string.sadStringCacheKey)).thenReturn("sadStringsCacheKey");
 
+        // Moch happy color
+        when(mContext.getResources().getIntArray(R.array.happyColors)).thenReturn(colors);
+        when(mContext.getString(R.string.happyColorCacheKey)).thenReturn("happyColorCacheKey");
+
         mStringArrayList = new ArrayList<>();
+        mIntArraylist = new ArrayList<>();
+    }
+
+    @Test
+    public void getHappyColor_should_not_return_same_string_twice() {
+        for (int i = 0; i < 10; i++) {
+            for (int color : colors) {
+                int happyColor = Utility.getHappyColor(mContext);
+                String errMsg = "Color " + happyColor + " already returned from getHappyColor.";
+
+                assertFalse(errMsg, mIntArraylist.contains(happyColor));
+
+                mIntArraylist.add(happyColor);
+            }
+            mIntArraylist.clear();;
+        }
     }
 
     // Helper function for getSad-/HappyString assertion
@@ -56,11 +79,12 @@ public class UtilityTest {
         // Due to the random selection of string from the array - run the assertion n times to minimize "bad luck"
         for (int i = 0; i < 10; i++) {
             for (String happyString : mTestStrings) {
-                String s = checkHappy ? Utility.getHappyString(mContext) : Utility.getSadString(mContext);
-                String errMsg = "String \"" + s + "\" already returned from getHappyString.";
+                String happySadString = checkHappy ? Utility.getHappyString(mContext) : Utility.getSadString(mContext);
+                String errMsg = "String \"" + happySadString + "\" already returned from " +
+                        (checkHappy ? "getHappyString." : "getSadString.");
 
-                assertFalse(errMsg, mStringArrayList.contains(s));
-                mStringArrayList.add(s);
+                assertFalse(errMsg, mStringArrayList.contains(happySadString));
+                mStringArrayList.add(happySadString);
             }
             mStringArrayList.clear();
         }
