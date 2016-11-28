@@ -47,23 +47,27 @@ public class Utility {
     }
 
     public static String getSadString(Context context) {
-        String[] sadStrings = context.getResources().getStringArray(R.array.sadStrings);
-        return sadStrings[randInInterval(sadStrings.length - 1)];
+        return getNextHappyOrSadString(R.array.sadStrings, R.string.sadStringCacheKey, context);
+    }
+
+    public static String getHappyString(Context context) {
+        return getNextHappyOrSadString(R.array.happyStrings, R.string.happyStringCacheKey, context);
     }
 
     @SuppressWarnings("unchecked")
-    public static String getHappyString(Context context) {
+    private static String getNextHappyOrSadString(int stringArrayId, int cacheKeyId, Context context) {
         LRUCache cache = LRUCache.getInstance();
-        String happyStringsKey = context.getString(R.string.happyStringCacheKey);
 
-        ArrayList<String> happyStrings = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.happyStrings)));
-        ArrayList<String> usedHappyStrings = (ArrayList<String>) cache.getLru().get(happyStringsKey);
+        String cacheKey = context.getString(cacheKeyId);
+
+        ArrayList<String> happyStrings = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(stringArrayId)));
+        ArrayList<String> usedHappyStrings = (ArrayList<String>) cache.getLru().get(cacheKey);
 
         if ((usedHappyStrings == null) || (usedHappyStrings.size() >= happyStrings.size())) {
             String happyString = happyStrings.get(randInInterval(happyStrings.size() - 1));
             ArrayList<String> toCache = new ArrayList<>();
             toCache.add(happyString);
-            cache.getLru().put(happyStringsKey, toCache);
+            cache.getLru().put(cacheKey, toCache);
             return happyString;
         } else {
             for (String usedString : usedHappyStrings) {
@@ -74,7 +78,7 @@ public class Utility {
 
             String happyString = happyStrings.get(randInInterval(happyStrings.size() - 1));
             usedHappyStrings.add(happyString);
-            cache.getLru().put(happyStringsKey, usedHappyStrings);
+            cache.getLru().put(cacheKey, usedHappyStrings);
             return happyString;
         }
     }

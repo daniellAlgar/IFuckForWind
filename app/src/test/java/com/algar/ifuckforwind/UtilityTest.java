@@ -28,34 +28,50 @@ import static org.mockito.Mockito.when;
 public class UtilityTest {
     // TODO: Test all functions accepting Context as input parameter
 
-    @Mock Context context;
-    @Mock Resources resources;
+    @Mock Context mContext;
+    @Mock Resources mResources;
+    String[] mTestStrings = {"Happy_1", "Happy_2", "Happy_3", "Happy_4", "Happy_5", "Happy_6", "Happy_7"};
+    ArrayList<String> mStringArrayList;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
+
+        when(mContext.getResources()).thenReturn(mResources);
+
+        // Mock happy string
+        when(mContext.getResources().getStringArray(R.array.happyStrings)).thenReturn(mTestStrings);
+        when(mContext.getString(R.string.happyStringCacheKey)).thenReturn("happyStringCacheKey");
+
+        // Mock sad string
+        when(mContext.getResources().getStringArray(R.array.sadStrings)).thenReturn(mTestStrings);
+        when(mContext.getString(R.string.sadStringCacheKey)).thenReturn("sadStringsCacheKey");
+
+        mStringArrayList = new ArrayList<>();
+    }
+
+    private void assertCheckForHappyAndSadString(boolean checkHappy) {
+        // Due to the random selection of string from the array - run the assertion n times to minimize "bad luck"
+        for (int i = 0; i < 10; i++) {
+            for (String happyString : mTestStrings) {
+                String s = checkHappy ? Utility.getHappyString(mContext) : Utility.getSadString(mContext);
+                String errMsg = "String \"" + s + "\" already returned from getHappyString.";
+
+                assertFalse(errMsg, mStringArrayList.contains(s));
+                mStringArrayList.add(s);
+            }
+            mStringArrayList.clear();
+        }
+    }
+
+    @Test
+    public void getSadString_should_not_return_same_string_twice() {
+        assertCheckForHappyAndSadString(false);
     }
 
     @Test
     public void getHappyString_should_not_return_same_string_twice() {
-        String[] happyStrings = {"Happy_1", "Happy_2", "Happy_3", "Happy_4", "Happy_5", "Happy_6", "Happy_7"};
-        ArrayList<String> stringArrayList = new ArrayList<>();
-
-        when(context.getResources()).thenReturn(resources);
-        when(context.getResources().getStringArray(R.array.happyStrings)).thenReturn(happyStrings);
-        when(context.getString(R.string.happyStringCacheKey)).thenReturn("happyStringCacheKey");
-
-        // Due to the random selection of string from the array - run the assertion n times to minimize "bad luck"
-        for (int i = 0; i < 10; i++) {
-            for (String happyString : happyStrings) {
-                String s = Utility.getHappyString(context);
-                String errMsg = "String \"" + s + "\" already returned from getHappyString.";
-
-                assertFalse(errMsg, stringArrayList.contains(s));
-                stringArrayList.add(s);
-            }
-            stringArrayList.clear();
-        }
+        assertCheckForHappyAndSadString(true);
     }
 
     @Test
@@ -79,7 +95,7 @@ public class UtilityTest {
 
     @Test
     public void getPrettyDate() {
-        // This function defaults to getoffsetDate for i > 2. Therefore it should always be tested
+        // This function defaults to getOffsetDate for i > 2. Therefore it should always be tested
         // after the getOffsetDate tests
         String[] expected = {"Today", "Tomorrow", "Tuesday"};
 
