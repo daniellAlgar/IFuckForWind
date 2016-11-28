@@ -13,6 +13,7 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.TimeZone;
 
+import static com.algar.ifuckforwind.R.array.sadColors;
 import static java.util.Arrays.asList;
 
 /**
@@ -39,14 +40,11 @@ public class Utility {
     }
 
     public static int getSadColor(Context context) {
-        int[] sadColors = context.getResources().getIntArray(R.array.sadColors);
-        return sadColors[randInInterval(sadColors.length - 1)];
+        return getNextHappyOrSadColor(sadColors, R.string.sadColorCacheKey, context);
     }
 
     public static int getHappyColor(Context context) {
         return getNextHappyOrSadColor(R.array.happyColors, R.string.happyColorCacheKey, context);
-//        int[] happyColors = context.getResources().getIntArray(R.array.happyColors);
-//        return happyColors[randInInterval(happyColors.length - 1)];
     }
 
     @SuppressWarnings("unchecked")

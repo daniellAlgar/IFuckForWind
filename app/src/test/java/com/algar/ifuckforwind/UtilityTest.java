@@ -51,26 +51,41 @@ public class UtilityTest {
         when(mContext.getResources().getStringArray(R.array.sadStrings)).thenReturn(mTestStrings);
         when(mContext.getString(R.string.sadStringCacheKey)).thenReturn("sadStringsCacheKey");
 
-        // Moch happy color
+        // Mock happy color
         when(mContext.getResources().getIntArray(R.array.happyColors)).thenReturn(colors);
         when(mContext.getString(R.string.happyColorCacheKey)).thenReturn("happyColorCacheKey");
+
+        // Mock sad color
+        when(mContext.getResources().getIntArray(R.array.sadColors)).thenReturn(colors);
+        when(mContext.getString(R.string.sadColorCacheKey)).thenReturn("sadColorCacheKey");
 
         mStringArrayList = new ArrayList<>();
         mIntArraylist = new ArrayList<>();
     }
 
     @Test
-    public void getHappyColor_should_not_return_same_string_twice() {
+    public void getSadColor_should_not_return_same_color_twice() {
+        assertCheckForHappyAndSadColor(false);
+    }
+
+    @Test
+    public void getHappyColor_should_not_return_same_color_twice() {
+        assertCheckForHappyAndSadColor(true);
+    }
+
+    // Helpef function for getSad-/HappyColor assertion
+    private void assertCheckForHappyAndSadColor(boolean checkHappy) {
+        // Due to the random selection of string from the array - run the assertion n times to minimize "bad luck"
         for (int i = 0; i < 10; i++) {
-            for (int color : colors) {
-                int happyColor = Utility.getHappyColor(mContext);
-                String errMsg = "Color " + happyColor + " already returned from getHappyColor.";
+            for (int colorInt : colors) {
+                int happySadColor = checkHappy ? Utility.getHappyColor(mContext) : Utility.getSadColor(mContext);
+                String errMsg = "int \"" + happySadColor + "\" already returned from " +
+                        (checkHappy ? "getHappyColor." : "getSadColor.");
 
-                assertFalse(errMsg, mIntArraylist.contains(happyColor));
-
-                mIntArraylist.add(happyColor);
+                assertFalse(errMsg, mIntArraylist.contains(happySadColor));
+                mIntArraylist.add(happySadColor);
             }
-            mIntArraylist.clear();;
+            mIntArraylist.clear();
         }
     }
 
