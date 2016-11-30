@@ -12,19 +12,19 @@ import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat;
 /**
  * Created by algar on 2016-08-30
  */
-public class SettingsFragment extends PreferenceFragmentCompat {
+public class PreferenceFragment extends PreferenceFragmentCompat {
 
     private static final String SECTION_NUMBER = "sectionNumber";
     private int mSectionNumber;
 
-    public SettingsFragment() {}
+    public PreferenceFragment() {}
 
-    public static SettingsFragment newInstance(int sectionNumber) {
-        SettingsFragment settingsFragment = new SettingsFragment();
+    public static PreferenceFragment newInstance(int sectionNumber) {
+        PreferenceFragment preferenceFragment = new PreferenceFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(SECTION_NUMBER, sectionNumber);
-        settingsFragment.setArguments(bundle);
-        return settingsFragment;
+        preferenceFragment.setArguments(bundle);
+        return preferenceFragment;
     }
 
     @Override
