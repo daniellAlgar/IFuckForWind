@@ -117,32 +117,23 @@ public class UtilityTest {
         assertCheckForSentimentString(Sentiment.HAPPY);
     }
 
+
     @Test
     public void getOffsetDate() {
-        String[] weekDays = new String[7];
-
-        switch (Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
-            case Calendar.MONDAY : weekDays = new String[] {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"}; break;
-            case Calendar.TUESDAY : weekDays = new String[] {"Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Monday"}; break;
-            case Calendar.WEDNESDAY : weekDays = new String[] {"Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Monday", "Tuesday"}; break;
-            case Calendar.THURSDAY : weekDays = new String[] {"Thursday", "Friday", "Saturday", "Sunday", "Monday", "Tuesday", "Wednesday"}; break;
-            case Calendar.FRIDAY : weekDays = new String[] {"Friday", "Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"}; break;
-            case Calendar.SATURDAY : weekDays = new String[] {"Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"}; break;
-            case Calendar.SUNDAY : weekDays = new String[] {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
-        }
-
+        String[] weekDays = getWeekdaysFromToday();
         for (int i = 0; i < weekDays.length; i++) {
             assertTrue(Utility.getOffsetDate(i).equals(weekDays[i]));
         }
     }
 
     @Test
-    public void getPrettyDate() {
+    public void getPrettyDate_the_first_two_days_should_be_pretty() {
         // This function defaults to getOffsetDate for i > 2. Therefore it should always be tested
         // after the getOffsetDate tests
-        String[] expected = {"Today", "Tomorrow", "Tuesday"};
+        String[] weekDays = getWeekdaysFromToday();
+        String[] expected = {"Today", "Tomorrow", weekDays[2]};
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i <= 2; i++) {
             String actual = Utility.getPrettyDate(i);
             String errMsg = "getPrettyDate(" + i + ") should return " + expected[i] +
                     ", but actually returned " + actual + ".";
@@ -150,8 +141,23 @@ public class UtilityTest {
         }
     }
 
+    private String[] getWeekdaysFromToday() {
+        String[] weekDays = new String[7];
+
+        switch (Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
+            case Calendar.MONDAY    : weekDays = new String[] {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"}; break;
+            case Calendar.TUESDAY   : weekDays = new String[] {"Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Monday"}; break;
+            case Calendar.WEDNESDAY : weekDays = new String[] {"Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Monday", "Tuesday"}; break;
+            case Calendar.THURSDAY  : weekDays = new String[] {"Thursday", "Friday", "Saturday", "Sunday", "Monday", "Tuesday", "Wednesday"}; break;
+            case Calendar.FRIDAY    : weekDays = new String[] {"Friday", "Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"}; break;
+            case Calendar.SATURDAY  : weekDays = new String[] {"Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"}; break;
+            case Calendar.SUNDAY    : weekDays = new String[] {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+        }
+        return weekDays;
+    }
+    
     @Test
-    public void randInInterval() {
+    public void randInInterval_check_that_a_number_within_given_interval_is_return() {
         int max = 20;
 
         for (int i = 0; i <= max; i++) {
