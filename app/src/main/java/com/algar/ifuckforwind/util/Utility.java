@@ -21,6 +21,8 @@ import static java.util.Arrays.asList;
  */
 public class Utility {
 
+    private static LRUCache mCache = LRUCache.getInstance();
+
     public static String getPrettyDate(int offset) {
         switch (offset) {
             case 0:
@@ -49,8 +51,6 @@ public class Utility {
 
     @SuppressWarnings("unchecked")
     private static int getNextHappyOrSadColor(int intArrayId, int cacheKeyId, Context context) {
-        LRUCache cache = LRUCache.getInstance();
-
         String cacheKey = context.getString(cacheKeyId);
 
         int[] colors = context.getResources().getIntArray(intArrayId);
@@ -60,13 +60,13 @@ public class Utility {
             colorInts.add(color);
         }
 
-        ArrayList<Integer> usedColors = (ArrayList<Integer>) cache.getLru().get(cacheKey);
+        ArrayList<Integer> usedColors = (ArrayList<Integer>) mCache.getLru().get(cacheKey);
 
         if ((usedColors == null) || (usedColors.size() >= colorInts.size())) {
             int randColor = colorInts.get(randInInterval(colorInts.size() - 1));
             ArrayList<Integer> toCache = new ArrayList<>();
             toCache.add(randColor);
-            cache.getLru().put(cacheKey, toCache);
+            mCache.getLru().put(cacheKey, toCache);
             return randColor;
         } else {
             for (Integer usedString : usedColors) {
@@ -77,44 +77,42 @@ public class Utility {
 
             int randColor = colorInts.get(randInInterval(colorInts.size() - 1));
             usedColors.add(randColor);
-            cache.getLru().put(cacheKey, usedColors);
+            mCache.getLru().put(cacheKey, usedColors);
             return randColor;
         }
     }
 
     public static String getSadString(Context context) {
-        return getNextHappyOrSadString(R.array.sadStrings, R.string.sadStringCacheKey, context);
+        return getNextSentimentString(R.array.sadStrings, R.string.sadStringCacheKey, context);
     }
 
     public static String getHappyString(Context context) {
-        return getNextHappyOrSadString(R.array.happyStrings, R.string.happyStringCacheKey, context);
+        return getNextSentimentString(R.array.happyStrings, R.string.happyStringCacheKey, context);
     }
 
     @SuppressWarnings("unchecked")
-    private static String getNextHappyOrSadString(int stringArrayId, int cacheKeyId, Context context) {
-        LRUCache cache = LRUCache.getInstance();
-
+    private static String getNextSentimentString(int stringArrayId, int cacheKeyId, Context context) {
         String cacheKey = context.getString(cacheKeyId);
 
-        ArrayList<String> happyStrings = new ArrayList<>(asList(context.getResources().getStringArray(stringArrayId)));
-        ArrayList<String> usedHappyStrings = (ArrayList<String>) cache.getLru().get(cacheKey);
+        ArrayList<String> sentimentStrings = new ArrayList<>(asList(context.getResources().getStringArray(stringArrayId)));
+        ArrayList<String> usedSentimentStrings = (ArrayList<String>) mCache.getLru().get(cacheKey);
 
-        if ((usedHappyStrings == null) || (usedHappyStrings.size() >= happyStrings.size())) {
-            String happyString = happyStrings.get(randInInterval(happyStrings.size() - 1));
+        if ((usedSentimentStrings == null) || (usedSentimentStrings.size() >= sentimentStrings.size())) {
+            String happyString = sentimentStrings.get(randInInterval(sentimentStrings.size() - 1));
             ArrayList<String> toCache = new ArrayList<>();
             toCache.add(happyString);
-            cache.getLru().put(cacheKey, toCache);
+            mCache.getLru().put(cacheKey, toCache);
             return happyString;
         } else {
-            for (String usedString : usedHappyStrings) {
-                if (happyStrings.contains(usedString)) {
-                    happyStrings.remove(usedString);
+            for (String usedString : usedSentimentStrings) {
+                if (sentimentStrings.contains(usedString)) {
+                    sentimentStrings.remove(usedString);
                 }
             }
 
-            String happyString = happyStrings.get(randInInterval(happyStrings.size() - 1));
-            usedHappyStrings.add(happyString);
-            cache.getLru().put(cacheKey, usedHappyStrings);
+            String happyString = sentimentStrings.get(randInInterval(sentimentStrings.size() - 1));
+            usedSentimentStrings.add(happyString);
+            mCache.getLru().put(cacheKey, usedSentimentStrings);
             return happyString;
         }
     }

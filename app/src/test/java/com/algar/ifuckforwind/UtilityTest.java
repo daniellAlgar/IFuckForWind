@@ -16,8 +16,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
@@ -29,13 +29,17 @@ import static org.mockito.Mockito.when;
 public class UtilityTest {
     // TODO: Test all functions accepting Context as input parameter
 
+    private enum Sentiment {
+        HAPPY, SAD
+    }
+
     @Mock Context mContext;
     @Mock Resources mResources;
 
-    String[] mTestStrings = {"String_1", "String_2", "String_3", "String_4", "String_5", "String_6", "String_7", "String_8"};
-    int[] colors = {Color.RED, Color.BLACK, Color.BLUE, Color.CYAN, Color.GRAY, Color.GREEN, Color.MAGENTA};
-    ArrayList<String> mStringArrayList;
-    ArrayList<Integer> mIntArraylist;
+    private String[] mSentimentStrings = {"String_1", "String_2", "String_3", "String_4", "String_5", "String_6", "String_7", "String_8"};
+    private int[] mSentimentColors = {Color.RED, Color.BLACK, Color.BLUE, Color.CYAN, Color.GRAY, Color.GREEN, Color.MAGENTA};
+    private ArrayList<String> mSentimentStringArrayList;
+    private ArrayList<Integer> mSentimentIntegerArrayList;
 
     @Before
     public void setUp() throws Exception {
@@ -43,76 +47,74 @@ public class UtilityTest {
 
         when(mContext.getResources()).thenReturn(mResources);
 
-        // Mock happy string
-        when(mContext.getResources().getStringArray(R.array.happyStrings)).thenReturn(mTestStrings);
+        // Mock HAPPY string
+        when(mContext.getResources().getStringArray(R.array.happyStrings)).thenReturn(mSentimentStrings);
         when(mContext.getString(R.string.happyStringCacheKey)).thenReturn("happyStringCacheKey");
 
-        // Mock sad string
-        when(mContext.getResources().getStringArray(R.array.sadStrings)).thenReturn(mTestStrings);
+        // Mock SAD string
+        when(mContext.getResources().getStringArray(R.array.sadStrings)).thenReturn(mSentimentStrings);
         when(mContext.getString(R.string.sadStringCacheKey)).thenReturn("sadStringsCacheKey");
 
-        // Mock happy color
-        when(mContext.getResources().getIntArray(R.array.happyColors)).thenReturn(colors);
+        // Mock HAPPY color
+        when(mContext.getResources().getIntArray(R.array.happyColors)).thenReturn(mSentimentColors);
         when(mContext.getString(R.string.happyColorCacheKey)).thenReturn("happyColorCacheKey");
 
-        // Mock sad color
-        when(mContext.getResources().getIntArray(R.array.sadColors)).thenReturn(colors);
+        // Mock SAD color
+        when(mContext.getResources().getIntArray(R.array.sadColors)).thenReturn(mSentimentColors);
         when(mContext.getString(R.string.sadColorCacheKey)).thenReturn("sadColorCacheKey");
 
-        mStringArrayList = new ArrayList<>();
-        mIntArraylist = new ArrayList<>();
+        mSentimentStringArrayList = new ArrayList<>();
+        mSentimentIntegerArrayList = new ArrayList<>();
     }
 
     @Test
     public void getSadColor_should_not_return_same_color_twice() {
-        assertCheckForHappyAndSadColor(false);
+        assertCheckForSentimentColor(Sentiment.SAD);
     }
 
     @Test
     public void getHappyColor_should_not_return_same_color_twice() {
-        assertCheckForHappyAndSadColor(true);
+        assertCheckForSentimentColor(Sentiment.HAPPY);
     }
 
-    // Helpef function for getSad-/HappyColor assertion
-    private void assertCheckForHappyAndSadColor(boolean checkHappy) {
-        // Due to the random selection of string from the array - run the assertion n times to minimize "bad luck"
+    private void assertCheckForSentimentColor(Sentiment sentiment) {
+        // Due to the random selection of int from the array - run the assertion n times to minimize "bad luck"
         for (int i = 0; i < 10; i++) {
-            for (int colorInt : colors) {
-                int happySadColor = checkHappy ? Utility.getHappyColor(mContext) : Utility.getSadColor(mContext);
-                String errMsg = "int \"" + happySadColor + "\" already returned from " +
-                        (checkHappy ? "getHappyColor." : "getSadColor.");
+            for (int ignored : mSentimentColors) {
+                int sentimentColor = sentiment == Sentiment.HAPPY ? Utility.getHappyColor(mContext) : Utility.getSadColor(mContext);
+                String errMsg = "int \"" + sentimentColor + "\" already returned from " +
+                        (sentiment == Sentiment.HAPPY ? "getHappyColor." : "getSadColor.");
 
-                assertFalse(errMsg, mIntArraylist.contains(happySadColor));
-                mIntArraylist.add(happySadColor);
+                assertFalse(errMsg, mSentimentIntegerArrayList.contains(sentimentColor));
+                mSentimentIntegerArrayList.add(sentimentColor);
             }
-            mIntArraylist.clear();
+            mSentimentIntegerArrayList.clear();
         }
     }
 
-    // Helper function for getSad-/HappyString assertion
-    private void assertCheckForHappyAndSadString(boolean checkHappy) {
+    private void assertCheckForSentimentString(Sentiment sentiment) {
         // Due to the random selection of string from the array - run the assertion n times to minimize "bad luck"
         for (int i = 0; i < 10; i++) {
-            for (String happyString : mTestStrings) {
-                String happySadString = checkHappy ? Utility.getHappyString(mContext) : Utility.getSadString(mContext);
-                String errMsg = "String \"" + happySadString + "\" already returned from " +
-                        (checkHappy ? "getHappyString." : "getSadString.");
+            for (String ignored : mSentimentStrings) {
+                String sentimentString = sentiment == Sentiment.HAPPY ? Utility.getHappyString(mContext) : Utility.getSadString(mContext);
+                String errMsg = "String \"" + sentimentString + "\" already returned from " +
+                        (sentiment == Sentiment.HAPPY ? "getHappyString." : "getSadString.");
 
-                assertFalse(errMsg, mStringArrayList.contains(happySadString));
-                mStringArrayList.add(happySadString);
+                assertFalse(errMsg, mSentimentStringArrayList.contains(sentimentString));
+                mSentimentStringArrayList.add(sentimentString);
             }
-            mStringArrayList.clear();
+            mSentimentStringArrayList.clear();
         }
     }
 
     @Test
     public void getSadString_should_not_return_same_string_twice() {
-        assertCheckForHappyAndSadString(false);
+        assertCheckForSentimentString(Sentiment.SAD);
     }
 
     @Test
     public void getHappyString_should_not_return_same_string_twice() {
-        assertCheckForHappyAndSadString(true);
+        assertCheckForSentimentString(Sentiment.HAPPY);
     }
 
     @Test
@@ -164,7 +166,7 @@ public class UtilityTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void randInInterval_exception() {
+    public void randInInterval_exception_if_start_is_greater_than_stop() {
         Utility.randInInterval(10, 0);
     }
 }
