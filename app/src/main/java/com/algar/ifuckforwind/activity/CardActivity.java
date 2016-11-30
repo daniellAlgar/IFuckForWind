@@ -1,6 +1,7 @@
 package com.algar.ifuckforwind.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -23,7 +24,6 @@ public class CardActivity extends AppCompatActivity implements DetailActivityAda
 
     public static final String INTENT_LOCATION_NAME = "spotName";
     public static final String INTENT_LOCATION_AVATAR = "spotAvatar";
-    private boolean mIsHappyDay;
 
     @BindView(R.id.detail_recycler_view) RecyclerView mRecyclerView;
     private DetailActivityAdapter mAdapter;
@@ -34,12 +34,16 @@ public class CardActivity extends AppCompatActivity implements DetailActivityAda
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card);
         ButterKnife.bind(this);
+
         //noinspection ConstantConditions
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(getIntent().getStringExtra(SectionsPagerFragment.INTENT_EXTRA_CURRENT_DAY));
         mRecyclerView.setHasFixedSize(true);
 
-        mIsHappyDay = getIntent().getBooleanExtra(SectionsPagerFragment.INTENT_EXTRA_IS_HAPPY_DAY, true);
+        boolean isHappyDay = getIntent().getBooleanExtra(SectionsPagerFragment.INTENT_EXTRA_IS_HAPPY_DAY, true);
+        int backgroundColor = getIntent().getIntExtra(SectionsPagerFragment.INTENT_EXTRA_BACKGROUND_COLOR, 0);
+
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(backgroundColor));
 
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
