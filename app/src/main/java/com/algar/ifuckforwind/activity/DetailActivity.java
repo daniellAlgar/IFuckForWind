@@ -1,5 +1,6 @@
 package com.algar.ifuckforwind.activity;
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -28,34 +29,22 @@ import lecho.lib.hellocharts.view.PreviewColumnChartView;
 
 public class DetailActivity extends AppCompatActivity {
 
-    private String mSpotName;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-        setupToolbar();
 
-        mSpotName = getIntent().getStringExtra(CardActivity.INTENT_LOCATION_NAME);
+        //noinspection ConstantConditions
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setBackgroundDrawable(
+                new ColorDrawable(getIntent().getIntExtra(CardActivity.INTENT_BACKGROUND_COLOR, -1)));
+
+        setTitle(getIntent().getStringExtra(CardActivity.INTENT_LOCATION_NAME));
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().add(R.id.activity_detail_preview_column_chart, new PlaceholderFragment()).commit();
         }
 
-    }
-
-    private void setupToolbar() {
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//
-//        CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
-//        collapsingToolbarLayout.setTitle(mSpotName);
-
-//        ImageView imageView = (ImageView) findViewById(R.id.activity_detail_toolbar_image_view);
-//        imageView.setImageResource(getIntent().getIntExtra(CardActivity.INTENT_LOCATION_AVATAR, -1));
-
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     /**

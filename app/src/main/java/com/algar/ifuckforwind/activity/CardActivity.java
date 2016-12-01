@@ -24,10 +24,13 @@ public class CardActivity extends AppCompatActivity implements DetailActivityAda
 
     public static final String INTENT_LOCATION_NAME = "spotName";
     public static final String INTENT_LOCATION_AVATAR = "spotAvatar";
+    public static final String INTENT_BACKGROUND_COLOR = "backgroundColor";
 
     @BindView(R.id.detail_recycler_view) RecyclerView mRecyclerView;
     private DetailActivityAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+
+    int mBackgroundColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +44,9 @@ public class CardActivity extends AppCompatActivity implements DetailActivityAda
         mRecyclerView.setHasFixedSize(true);
 
         boolean isHappyDay = getIntent().getBooleanExtra(SectionsPagerFragment.INTENT_EXTRA_IS_HAPPY_DAY, true);
-        int backgroundColor = getIntent().getIntExtra(SectionsPagerFragment.INTENT_EXTRA_BACKGROUND_COLOR, 0);
+        mBackgroundColor = getIntent().getIntExtra(SectionsPagerFragment.INTENT_EXTRA_BACKGROUND_COLOR, 0);
 
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(backgroundColor));
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(mBackgroundColor));
 
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -71,6 +74,7 @@ public class CardActivity extends AppCompatActivity implements DetailActivityAda
         Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
         intent.putExtra(INTENT_LOCATION_NAME, spot.getLocation());
         intent.putExtra(INTENT_LOCATION_AVATAR, spot.getAvatar());
+        intent.putExtra(INTENT_BACKGROUND_COLOR, mBackgroundColor);
         ActivityOptionsCompat options =
                 ActivityOptionsCompat.makeSceneTransitionAnimation(this, view.findViewById(R.id.detail_cardview_spot_avatar_imageview), "transitionLocationImage");
         startActivity(intent, options.toBundle());
