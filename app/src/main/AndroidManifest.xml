@@ -24,8 +24,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.DetailActivity"
-            android:parentActivityName=".activity.CardActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:parentActivityName=".activity.CardActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.CardActivity" />
