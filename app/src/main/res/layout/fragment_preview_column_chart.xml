@@ -8,8 +8,13 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin">
 
+    <lecho.lib.hellocharts.view.BubbleChartView
+        android:id="@+id/wind_direction_bubble_chart_view"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
+
     <lecho.lib.hellocharts.view.ColumnChartView
-        android:id="@+id/chart"
+        android:id="@+id/wind_column_chart_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2" >

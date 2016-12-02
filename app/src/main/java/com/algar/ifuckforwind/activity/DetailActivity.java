@@ -51,18 +51,18 @@ public class DetailActivity extends AppCompatActivity {
 
     public static class WindChartFragment extends Fragment {
 
-        private boolean hasLabels = true;
-        private boolean hasLabelForSelected = true;
-        private boolean hasAxes = true;
-        private boolean hasAxesNames = true;
+        private boolean mHasLabels = true;
+        private boolean mHasLabelForSelected = true;
+        private boolean mHasAxes = true;
+        private boolean mHasAxesNames = true;
 
-        private ColumnChartView chart;
-        private PreviewColumnChartView previewChart;
-        private ColumnChartData data;
+        private ColumnChartView mColumnChartView;
+        private PreviewColumnChartView mPreviewChart;
+        private ColumnChartData mColumnChartData;
         /**
-         * Deep copy of data.
+         * Deep copy of mColumnChartData.
          */
-        private ColumnChartData previewData;
+        private ColumnChartData mPreviewData;
 
         public WindChartFragment() {
             // Default empty constructor
@@ -73,21 +73,21 @@ public class DetailActivity extends AppCompatActivity {
             setHasOptionsMenu(true);
             View rootView = inflater.inflate(R.layout.fragment_preview_column_chart, container, false);
 
-            chart = (ColumnChartView) rootView.findViewById(R.id.chart);
-            previewChart = (PreviewColumnChartView) rootView.findViewById(R.id.chart_preview);
+            mColumnChartView = (ColumnChartView) rootView.findViewById(R.id.wind_column_chart_view);
+            mPreviewChart = (PreviewColumnChartView) rootView.findViewById(R.id.chart_preview);
 
-            // Generate data for previewed chart and copy of that data for preview chart.
+            // Generate mColumnChartData for previewed mColumnChartView and copy of that mColumnChartData for preview mColumnChartView.
 //            generateDefaultData();
             generateStackedData();
 
-            chart.setColumnChartData(data);
-            // Disable zoom/scroll for previewed chart, visible chart ranges depends on preview chart viewport so
+            mColumnChartView.setColumnChartData(mColumnChartData);
+            // Disable zoom/scroll for previewed mColumnChartView, visible mColumnChartView ranges depends on preview mColumnChartView viewport so
             // zoom/scroll is unnecessary.
-            chart.setZoomEnabled(false);
-            chart.setScrollEnabled(false);
+            mColumnChartView.setZoomEnabled(false);
+            mColumnChartView.setScrollEnabled(false);
 
-            previewChart.setColumnChartData(previewData);
-            previewChart.setViewportChangeListener(new ViewportListener());
+            mPreviewChart.setColumnChartData(mPreviewData);
+            mPreviewChart.setViewportChangeListener(new ViewportListener());
 
             previewX(false);
 
@@ -105,14 +105,14 @@ public class DetailActivity extends AppCompatActivity {
             int id = item.getItemId();
             if (id == R.id.action_reset) {
                 generateDefaultData();
-                chart.setColumnChartData(data);
-                previewChart.setColumnChartData(previewData);
+                mColumnChartView.setColumnChartData(mColumnChartData);
+                mPreviewChart.setColumnChartData(mPreviewData);
                 previewX(true);
                 return true;
             }
             if (id == R.id.action_preview_both) {
                 previewXY();
-                previewChart.setZoomType(ZoomType.HORIZONTAL_AND_VERTICAL);
+                mPreviewChart.setZoomType(ZoomType.HORIZONTAL_AND_VERTICAL);
                 return true;
             }
             if (id == R.id.action_preview_horizontal) {
@@ -125,10 +125,10 @@ public class DetailActivity extends AppCompatActivity {
             }
             if (id == R.id.action_change_color) {
                 int color = ChartUtils.pickColor();
-                while (color == previewChart.getPreviewColor()) {
+                while (color == mPreviewChart.getPreviewColor()) {
                     color = ChartUtils.pickColor();
                 }
-                previewChart.setPreviewColor(color);
+                mPreviewChart.setPreviewColor(color);
                 return true;
             }
             return super.onOptionsItemSelected(item);
@@ -148,40 +148,40 @@ public class DetailActivity extends AppCompatActivity {
                 }
 
                 Column column = new Column(subcolumnValues);
-                column.setHasLabels(hasLabels);
-                column.setHasLabelsOnlyForSelected(hasLabelForSelected);
+                column.setHasLabels(mHasLabels);
+                column.setHasLabelsOnlyForSelected(mHasLabelForSelected);
                 columns.add(column);
             }
 
-            data = new ColumnChartData(columns);
+            mColumnChartData = new ColumnChartData(columns);
 
             // Set stacked flag.
-            data.setStacked(true);
+            mColumnChartData.setStacked(true);
 
-            // prepare preview data, is better to use separate deep copy for preview chart.
+            // prepare preview mColumnChartData, is better to use separate deep copy for preview mColumnChartView.
             // set color to grey to make preview area more visible.
-            previewData = new ColumnChartData(data);
-            for (Column column : previewData.getColumns()) {
+            mPreviewData = new ColumnChartData(mColumnChartData);
+            for (Column column : mPreviewData.getColumns()) {
                 for (SubcolumnValue value : column.getValues()) {
                     value.setColor(ChartUtils.DEFAULT_DARKEN_COLOR);
                 }
             }
 
-            if (hasAxes) {
+            if (mHasAxes) {
                 Axis axisX = new Axis();
                 Axis axisY = new Axis().setHasLines(true);
-                if (hasAxesNames) {
+                if (mHasAxesNames) {
                     axisX.setName("hour");
                     axisY.setName("m/s");
                 }
-                data.setAxisXBottom(axisX);
-                data.setAxisYLeft(axisY);
+                mColumnChartData.setAxisXBottom(axisX);
+                mColumnChartData.setAxisYLeft(axisY);
             } else {
-                data.setAxisXBottom(null);
-                data.setAxisYLeft(null);
+                mColumnChartData.setAxisXBottom(null);
+                mColumnChartData.setAxisYLeft(null);
             }
 
-            chart.setColumnChartData(data);
+            mColumnChartView.setColumnChartData(mColumnChartData);
         }
 
         private void generateDefaultData() {
@@ -199,14 +199,14 @@ public class DetailActivity extends AppCompatActivity {
                 columns.add(new Column(values));
             }
 
-            data = new ColumnChartData(columns);
-            data.setAxisXBottom(new Axis());
-            data.setAxisYLeft(new Axis().setHasLines(true));
+            mColumnChartData = new ColumnChartData(columns);
+            mColumnChartData.setAxisXBottom(new Axis());
+            mColumnChartData.setAxisYLeft(new Axis().setHasLines(true));
 
-            // prepare preview data, is better to use separate deep copy for preview chart.
+            // prepare preview mColumnChartData, is better to use separate deep copy for preview mColumnChartView.
             // set color to grey to make preview area more visible.
-            previewData = new ColumnChartData(data);
-            for (Column column : previewData.getColumns()) {
+            mPreviewData = new ColumnChartData(mColumnChartData);
+            for (Column column : mPreviewData.getColumns()) {
                 for (SubcolumnValue value : column.getValues()) {
                     value.setColor(ChartUtils.DEFAULT_DARKEN_COLOR);
                 }
@@ -214,46 +214,46 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         private void previewY() {
-            Viewport tempViewport = new Viewport(chart.getMaximumViewport());
+            Viewport tempViewport = new Viewport(mColumnChartView.getMaximumViewport());
             float dy = tempViewport.height() / 4;
             tempViewport.inset(0, dy);
-            previewChart.setCurrentViewportWithAnimation(tempViewport);
-            previewChart.setZoomType(ZoomType.VERTICAL);
+            mPreviewChart.setCurrentViewportWithAnimation(tempViewport);
+            mPreviewChart.setZoomType(ZoomType.VERTICAL);
         }
 
         private void previewX(boolean animate) {
-            Viewport tempViewport = new Viewport(chart.getMaximumViewport());
+            Viewport tempViewport = new Viewport(mColumnChartView.getMaximumViewport());
             float dx = tempViewport.width() / 4;
             tempViewport.inset(dx, 0);
             if (animate) {
-                previewChart.setCurrentViewportWithAnimation(tempViewport);
+                mPreviewChart.setCurrentViewportWithAnimation(tempViewport);
             } else {
-                previewChart.setCurrentViewport(tempViewport);
+                mPreviewChart.setCurrentViewport(tempViewport);
             }
-            previewChart.setZoomType(ZoomType.HORIZONTAL);
+            mPreviewChart.setZoomType(ZoomType.HORIZONTAL);
         }
 
         private void previewXY() {
-            // Better to not modify viewport of any chart directly so create a copy.
-            Viewport tempViewport = new Viewport(chart.getMaximumViewport());
+            // Better to not modify viewport of any mColumnChartView directly so create a copy.
+            Viewport tempViewport = new Viewport(mColumnChartView.getMaximumViewport());
             // Make temp viewport smaller.
             float dx = tempViewport.width() / 4;
             float dy = tempViewport.height() / 4;
             tempViewport.inset(dx, dy);
-            previewChart.setCurrentViewportWithAnimation(tempViewport);
+            mPreviewChart.setCurrentViewportWithAnimation(tempViewport);
         }
 
         /**
-         * Viewport listener for preview chart(lower one). in {@link #onViewportChanged(Viewport)} method change
-         * viewport of upper chart.
+         * Viewport listener for preview mColumnChartView(lower one). in {@link #onViewportChanged(Viewport)} method change
+         * viewport of upper mColumnChartView.
          */
         private class ViewportListener implements ViewportChangeListener {
 
             @Override
             public void onViewportChanged(Viewport newViewport) {
-                // don't use animation, it is unnecessary when using preview chart because usually viewport changes
+                // don't use animation, it is unnecessary when using preview mColumnChartView because usually viewport changes
                 // happens to often.
-                chart.setCurrentViewport(newViewport);
+                mColumnChartView.setCurrentViewport(newViewport);
             }
 
         }
