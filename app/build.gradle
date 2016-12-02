@@ -62,4 +62,5 @@ dependencies {
 
 //    compile 'com.github.lecho:hellocharts-library:1.5.8@aar'
     compile project(path: ':hellocharts-library')
+    compile project(path: ':MPChartLib')
 }
