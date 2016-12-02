@@ -1,9 +1,13 @@
 package com.algar.ifuckforwind.activity;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -93,7 +97,6 @@ public class DetailActivity extends AppCompatActivity {
             mBubbleChartView.setOnValueTouchListener(new ValueTouchListener());
 
             // Generate mColumnChartData for previewed mColumnChartView and copy of that mColumnChartData for preview mColumnChartView.
-//            generateDefaultData();
             generateStackedData();
 
             mColumnChartView.setColumnChartData(mColumnChartData);
@@ -104,8 +107,7 @@ public class DetailActivity extends AppCompatActivity {
 
             mPreviewChart.setColumnChartData(mPreviewData);
             mPreviewChart.setViewportChangeListener(new ViewportListener());
-
-            previewX(false);
+            previewX(true);
 
             // Generate mBubbleChartData
             generateBubbleData();
@@ -154,6 +156,34 @@ public class DetailActivity extends AppCompatActivity {
             return super.onOptionsItemSelected(item);
         }
 
+        public Bitmap getResizedBitmap(Bitmap bm, int newHeight, int newWidth)
+        {
+            int width = bm.getWidth();
+            int height = bm.getHeight();
+            float scaleWidth = ((float) newWidth) / width;
+            float scaleHeight = ((float) newHeight) / height;
+            // create a matrix for the manipulation
+            Matrix matrix = new Matrix();
+            // resize the bit map
+            matrix.postScale(scaleWidth, scaleHeight);
+            // recreate the new Bitmap
+            Bitmap resizedBitmap = Bitmap.createBitmap(bm, 0, 0, width, height, matrix, false);
+            return resizedBitmap;
+        }
+
+        public int pxToDp(int px) {
+            DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
+            int dp = Math.round(px / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+            return dp;
+        }
+
+        public static Bitmap rotateBitmap(Bitmap source, float angle)
+        {
+            Matrix matrix = new Matrix();
+            matrix.postRotate(angle);
+            return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
+        }
+
         private void generateBubbleData() {
 
             List<BubbleValue> values = new ArrayList<BubbleValue>();
@@ -161,8 +191,16 @@ public class DetailActivity extends AppCompatActivity {
 //                BubbleValue value = new BubbleValue(i, (float) Math.random() * 100, (float) Math.random() * 1000);
                 BubbleValue value = new BubbleValue(i, 1, 1);
                 value.setColor(ChartUtils.pickColor());
-                value.setShape(mBubbleShape);
+                value.setShape(ValueShape.ARROW);
+
+                int scaleFactor = 8;
+
+                Bitmap arrow = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.wind_dir_arrow);
+                arrow = getResizedBitmap(arrow, arrow.getWidth()/scaleFactor, arrow.getHeight()/scaleFactor);
+
+                value.setBitmap(rotateBitmap(arrow, (float) Math.random() * 100));
                 values.add(value);
+
             }
 
             mBubbleChartData = new BubbleChartData(values);
@@ -228,7 +266,7 @@ public class DetailActivity extends AppCompatActivity {
                 Axis axisX = new Axis().setValues(axisValues);
                 Axis axisY = new Axis().setHasLines(true);
                 if (mHasAxesNames) {
-                    axisX.setName("hour");
+                    axisX.setName("Time (h)");
                     axisY.setName("m/s");
                 }
                 mColumnChartData.setAxisXBottom(axisX);

@@ -1,5 +1,7 @@
 package lecho.lib.hellocharts.model;
 
+import android.graphics.Bitmap;
+
 import java.util.Arrays;
 
 import lecho.lib.hellocharts.util.ChartUtils;
@@ -55,6 +57,8 @@ public class BubbleValue {
     private ValueShape shape = ValueShape.CIRCLE;
     private char[] label;
 
+    private Bitmap mBitmap;
+
     public BubbleValue() {
         set(0, 0, 0);
     }
@@ -72,6 +76,14 @@ public class BubbleValue {
         set(bubbleValue.x, bubbleValue.y, bubbleValue.z);
         setColor(bubbleValue.color);
         this.label = bubbleValue.label;
+    }
+
+    public void setBitmap(Bitmap drawable) {
+        mBitmap = drawable;
+    }
+
+    public Bitmap getBitmap() {
+        return mBitmap;
     }
 
     public void update(float scale) {

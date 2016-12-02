@@ -1,7 +1,9 @@
 package lecho.lib.hellocharts.renderer;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
@@ -64,6 +66,11 @@ public class BubbleChartRenderer extends AbstractChartRenderer {
     private boolean hasLabelsOnlyForSelected;
     private BubbleChartValueFormatter valueFormatter;
     private Viewport tempMaximumViewport = new Viewport();
+
+    // For arrow drawing
+    private Matrix mArrowPosition;
+    private Bitmap mArrowBitmap;
+    private int mArrowRotation;
 
     public BubbleChartRenderer(Context context, Chart chart, BubbleChartDataProvider dataProvider) {
         super(context, chart);
@@ -139,6 +146,8 @@ public class BubbleChartRenderer extends AbstractChartRenderer {
                 if (touchDistance <= rawRadius) {
                     selectedValue.set(valueIndex, valueIndex, SelectedValueType.NONE);
                 }
+            } else if (ValueShape.ARROW.equals(bubbleValue.getShape())) {
+                // TODO: Handle touch on arrow
             } else {
                 throw new IllegalArgumentException("Invalid bubble shape: " + bubbleValue.getShape());
             }
@@ -185,7 +194,12 @@ public class BubbleChartRenderer extends AbstractChartRenderer {
     private void drawBubbles(Canvas canvas) {
         final BubbleChartData data = dataProvider.getBubbleChartData();
         for (BubbleValue bubbleValue : data.getValues()) {
-            drawBubble(canvas, bubbleValue);
+//            drawBubble(canvas, bubbleValue);
+            processBubble(bubbleValue, bubbleCenter);
+            Bitmap bitmap = bubbleValue.getBitmap();
+//            Rect rect = new Rect((int) bubbleCenter.x, 0, bitmap.getWidth(), bitmap.getHeight());
+
+            canvas.drawBitmap(bitmap, bubbleCenter.x - 35, bubbleCenter.y, null);
         }
     }
 
@@ -204,6 +218,9 @@ public class BubbleChartRenderer extends AbstractChartRenderer {
             canvas.drawRect(bubbleRect, bubblePaint);
         } else if (ValueShape.CIRCLE.equals(bubbleValue.getShape())) {
             canvas.drawCircle(bubbleCenter.x, bubbleCenter.y, rawRadius, bubblePaint);
+        } else if (ValueShape.ARROW.equals(bubbleValue.getShape())) {
+            // TODO: Draw an arrow
+            canvas.drawBitmap(bubbleValue.getBitmap(), null, new RectF(0, 0, 2, 2), null);
         } else {
             throw new IllegalArgumentException("Invalid bubble shape: " + bubbleValue.getShape());
         }
