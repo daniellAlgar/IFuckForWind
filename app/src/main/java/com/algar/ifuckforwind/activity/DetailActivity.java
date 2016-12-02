@@ -124,7 +124,7 @@ public class DetailActivity extends AppCompatActivity {
         public boolean onOptionsItemSelected(MenuItem item) {
             int id = item.getItemId();
             if (id == R.id.action_reset) {
-                generateDefaultData();
+                generateStackedData();
                 mColumnChartView.setColumnChartData(mColumnChartData);
                 mPreviewChart.setColumnChartData(mPreviewData);
                 previewX(true);
