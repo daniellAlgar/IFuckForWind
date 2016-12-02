@@ -76,6 +76,7 @@ public class DetailActivity extends AppCompatActivity {
         private ValueShape mBubbleShape = ValueShape.CIRCLE;
 
         private int mNumYValues = 24;
+        private Bitmap mArrowBitmap;
 
         /**
          * Deep copy of mColumnChartData.
@@ -110,7 +111,8 @@ public class DetailActivity extends AppCompatActivity {
             previewX(true);
 
             // Generate mBubbleChartData
-            generateBubbleData();
+            setupArrows();
+            generateBubbleChartArrowData();
             mBubbleChartView.setBubbleChartData(mBubbleChartData);
 
             return rootView;
@@ -184,23 +186,23 @@ public class DetailActivity extends AppCompatActivity {
             return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
         }
 
-        private void generateBubbleData() {
+        private void setupArrows() {
+            int scaleFactor = 8;
 
-            List<BubbleValue> values = new ArrayList<BubbleValue>();
+            mArrowBitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.wind_dir_arrow);
+            mArrowBitmap = getResizedBitmap(mArrowBitmap,
+                                            mArrowBitmap.getWidth()/scaleFactor,
+                                            mArrowBitmap.getHeight()/scaleFactor);
+        }
+
+        private void generateBubbleChartArrowData() {
+
+            List<BubbleValue> values = new ArrayList<>();
             for (int i = 0; i < mNumYValues; ++i) {
-//                BubbleValue value = new BubbleValue(i, (float) Math.random() * 100, (float) Math.random() * 1000);
                 BubbleValue value = new BubbleValue(i, 1, 1);
-                value.setColor(ChartUtils.pickColor());
                 value.setShape(ValueShape.ARROW);
-
-                int scaleFactor = 8;
-
-                Bitmap arrow = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.wind_dir_arrow);
-                arrow = getResizedBitmap(arrow, arrow.getWidth()/scaleFactor, arrow.getHeight()/scaleFactor);
-
-                value.setBitmap(rotateBitmap(arrow, (float) Math.random() * 100));
+                value.setBitmap(rotateBitmap(mArrowBitmap, (float) Math.random() * 100));
                 values.add(value);
-
             }
 
             mBubbleChartData = new BubbleChartData(values);
@@ -222,7 +224,7 @@ public class DetailActivity extends AppCompatActivity {
             }
 
             mBubbleChartView.setBubbleChartData(mBubbleChartData);
-
+            mBubbleChartView.setScrollEnabled(false);
         }
 
         private void generateStackedData() {
