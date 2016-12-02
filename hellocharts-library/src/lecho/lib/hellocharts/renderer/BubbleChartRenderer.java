@@ -199,7 +199,7 @@ public class BubbleChartRenderer extends AbstractChartRenderer {
             Bitmap bitmap = bubbleValue.getBitmap();
 //            Rect rect = new Rect((int) bubbleCenter.x, 0, bitmap.getWidth(), bitmap.getHeight());
 
-            canvas.drawBitmap(bitmap, bubbleCenter.x - 35, bubbleCenter.y, null);
+            canvas.drawBitmap(bitmap, bubbleCenter.x - 30, bubbleCenter.y, null);
         }
     }
 

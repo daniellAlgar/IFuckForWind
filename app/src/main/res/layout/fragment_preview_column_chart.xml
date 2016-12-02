@@ -11,7 +11,8 @@
     <lecho.lib.hellocharts.view.BubbleChartView
         android:id="@+id/wind_direction_bubble_chart_view"
         android:layout_width="match_parent"
-        android:layout_height="50dp"/>
+        android:layout_height="40dp"
+        android:layout_gravity="center"/>
 
     <lecho.lib.hellocharts.view.ColumnChartView
         android:id="@+id/wind_column_chart_view"

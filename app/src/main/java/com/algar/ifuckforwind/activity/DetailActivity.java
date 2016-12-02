@@ -210,10 +210,8 @@ public class DetailActivity extends AppCompatActivity {
             mBubbleChartData.setHasLabelsOnlyForSelected(mHasLabelForSelected);
 
             if (mHasLabels) {
-                Axis axisX = new Axis();
                 Axis axisY = new Axis().setHasLines(false);
                 if (mHasAxesNames) {
-//                    axisX.setName("Axis X");
                     axisY.setName(" ");
                 }
                 mBubbleChartData.setAxisXBottom(null);
