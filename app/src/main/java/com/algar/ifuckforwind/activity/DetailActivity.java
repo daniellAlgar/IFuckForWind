@@ -21,6 +21,7 @@ import lecho.lib.hellocharts.gesture.ZoomType;
 import lecho.lib.hellocharts.listener.BubbleChartOnValueSelectListener;
 import lecho.lib.hellocharts.listener.ViewportChangeListener;
 import lecho.lib.hellocharts.model.Axis;
+import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.BubbleChartData;
 import lecho.lib.hellocharts.model.BubbleValue;
 import lecho.lib.hellocharts.model.Column;
@@ -188,7 +189,6 @@ public class DetailActivity extends AppCompatActivity {
 
         private void generateStackedData() {
             int numSubcolumns = 2;
-            mNumYValues = 24;
             // Column can have many stacked sub-columns, here I use 4 stacked sub-column in each of 4 columns.
             List<Column> columns = new ArrayList<Column>();
             List<SubcolumnValue> subcolumnValues;
@@ -219,8 +219,13 @@ public class DetailActivity extends AppCompatActivity {
                 }
             }
 
+            List<AxisValue> axisValues = new ArrayList<>();
+            for (int i = 0; i < mNumYValues; i++) {
+                axisValues.add(new AxisValue(i));
+            }
+
             if (mHasAxes) {
-                Axis axisX = new Axis();
+                Axis axisX = new Axis().setValues(axisValues);
                 Axis axisY = new Axis().setHasLines(true);
                 if (mHasAxesNames) {
                     axisX.setName("hour");
@@ -234,35 +239,6 @@ public class DetailActivity extends AppCompatActivity {
             }
 
             mColumnChartView.setColumnChartData(mColumnChartData);
-        }
-
-        private void generateDefaultData() {
-            int numSubcolumns = 1;
-            int numColumns = 50;
-            List<Column> columns = new ArrayList<Column>();
-            List<SubcolumnValue> values;
-            for (int i = 0; i < numColumns; ++i) {
-
-                values = new ArrayList<SubcolumnValue>();
-                for (int j = 0; j < numSubcolumns; ++j) {
-                    values.add(new SubcolumnValue((float) Math.random() * 40f + 5, ChartUtils.pickColor()));
-                }
-
-                columns.add(new Column(values));
-            }
-
-            mColumnChartData = new ColumnChartData(columns);
-            mColumnChartData.setAxisXBottom(new Axis());
-            mColumnChartData.setAxisYLeft(new Axis().setHasLines(true));
-
-            // prepare preview mColumnChartData, is better to use separate deep copy for preview mColumnChartView.
-            // set color to grey to make preview area more visible.
-            mPreviewData = new ColumnChartData(mColumnChartData);
-            for (Column column : mPreviewData.getColumns()) {
-                for (SubcolumnValue value : column.getValues()) {
-                    value.setColor(ChartUtils.DEFAULT_DARKEN_COLOR);
-                }
-            }
         }
 
         private void previewY() {
