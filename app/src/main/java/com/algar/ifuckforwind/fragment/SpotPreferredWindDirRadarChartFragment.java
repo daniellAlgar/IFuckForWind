@@ -54,6 +54,7 @@ public class SpotPreferredWindDirRadarChartFragment extends Fragment {
         mChart.setWebColorInner(Color.LTGRAY);
         mChart.setWebAlpha(100);
         mChart.getLegend().setEnabled(false);
+        mChart.setRotationEnabled(false);
 
         // TODO: Vill antagligen ta bort markörerna vid klick. Varför ska de användas?
         // create a custom MarkerView (extend MarkerView) and specify the layout
@@ -101,13 +102,13 @@ public class SpotPreferredWindDirRadarChartFragment extends Fragment {
 
     public void setData() {
         float scaleFactor = 100;
-        int cnt = 8;        // TODO: Gör detta snyggare?
+        int nrOfWeatherDirections = 8;        // TODO: Gör detta snyggare?
 
         ArrayList<RadarEntry> entries = new ArrayList<RadarEntry>();
 
         // NOTE: The order of the entries when being added to the entries array determines their
         // position around the center of the chart.
-        for (int i = 0; i < cnt; i++) {
+        for (int i = 0; i < nrOfWeatherDirections; i++) {
             float val1 = (float) (Math.random() * scaleFactor);
             entries.add(new RadarEntry(val1));
         }
