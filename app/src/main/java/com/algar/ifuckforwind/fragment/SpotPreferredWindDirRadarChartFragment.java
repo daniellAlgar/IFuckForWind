@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,15 +33,13 @@ import java.util.ArrayList;
  * Created by algar on 2016-12-02
  */
 
-public class SpotPreferedWindDirRadarChartFragment extends Fragment {
+public class SpotPreferredWindDirRadarChartFragment extends Fragment {
 
     private RadarChart mChart;
     Typeface mTfLight;
 
-
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
         View rootView = inflater.inflate(R.layout.fragment_spot_pref_wind_dir_radar_chart, container, false);
@@ -58,6 +55,7 @@ public class SpotPreferedWindDirRadarChartFragment extends Fragment {
         mChart.setWebAlpha(100);
         mChart.getLegend().setEnabled(false);
 
+        // TODO: Vill antagligen ta bort markörerna vid klick. Varför ska de användas?
         // create a custom MarkerView (extend MarkerView) and specify the layout
         // to use for it
         MarkerView mv = new RadarMarkerView(getActivity().getApplicationContext(), R.layout.radar_markerview);
@@ -79,8 +77,9 @@ public class SpotPreferedWindDirRadarChartFragment extends Fragment {
         xAxis.setXOffset(0f);
         xAxis.setValueFormatter(new IAxisValueFormatter() {
 
-            private String[] mActivities = new String[]{"North", "NE", "East", "SE", "South",
-                                                        "SW", "West", "NW"};
+            // TODO: Gör till string resource
+            private String[] mActivities =
+                    new String[]{"North", "NE", "East", "SE", "South", "SW", "West", "NW"};
 
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
@@ -97,30 +96,19 @@ public class SpotPreferedWindDirRadarChartFragment extends Fragment {
         yAxis.setAxisMaximum(80f);
         yAxis.setDrawLabels(false);
 
-//        Legend l = mChart.getLegend();
-//        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-//        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
-//        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
-//        l.setDrawInside(false);
-//        l.setTypeface(mTfLight);
-//        l.setXEntrySpace(7f);
-//        l.setYEntrySpace(5f);
-//        l.setTextColor(Color.WHITE);
-
         return rootView;
     }
 
     public void setData() {
-        float scaleFactor = 10;
-        float min = 0;
+        float scaleFactor = 100;
         int cnt = 8;        // TODO: Gör detta snyggare?
 
         ArrayList<RadarEntry> entries = new ArrayList<RadarEntry>();
 
-        // NOTE: The order of the entries when being added to the entries array determines their position around the center of
-        // the chart.
+        // NOTE: The order of the entries when being added to the entries array determines their
+        // position around the center of the chart.
         for (int i = 0; i < cnt; i++) {
-            float val1 = (float) (Math.random() * scaleFactor) + min;
+            float val1 = (float) (Math.random() * scaleFactor);
             entries.add(new RadarEntry(val1));
         }
 
@@ -158,7 +146,7 @@ public class SpotPreferedWindDirRadarChartFragment extends Fragment {
             tvContent.setTypeface(Typeface.createFromAsset(context.getAssets(), "OpenSans-Light.ttf"));
         }
 
-        // callbacks everytime the MarkerView is redrawn, can be used to update the
+        // callbacks every time the MarkerView is redrawn, can be used to update the
         // content (user-interface)
         @Override
         public void refreshContent(Entry e, Highlight highlight) {

@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.algar.ifuckforwind.R;
-import com.algar.ifuckforwind.fragment.SpotPreferedWindDirRadarChartFragment;
+import com.algar.ifuckforwind.fragment.SpotPreferredWindDirRadarChartFragment;
 import com.algar.ifuckforwind.fragment.WindChartFragment;
 
 
@@ -28,7 +28,7 @@ public class DetailActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.activity_detail_spot_wind_pref_frame_layout, new SpotPreferedWindDirRadarChartFragment())
+                    .add(R.id.activity_detail_spot_wind_pref_frame_layout, new SpotPreferredWindDirRadarChartFragment())
                     .commit();
 
             getSupportFragmentManager()
