@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.algar.ifuckforwind.R;
 
@@ -17,16 +18,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lecho.lib.hellocharts.gesture.ZoomType;
+import lecho.lib.hellocharts.listener.BubbleChartOnValueSelectListener;
 import lecho.lib.hellocharts.listener.ViewportChangeListener;
 import lecho.lib.hellocharts.model.Axis;
+import lecho.lib.hellocharts.model.BubbleChartData;
+import lecho.lib.hellocharts.model.BubbleValue;
 import lecho.lib.hellocharts.model.Column;
 import lecho.lib.hellocharts.model.ColumnChartData;
 import lecho.lib.hellocharts.model.SubcolumnValue;
+import lecho.lib.hellocharts.model.ValueShape;
 import lecho.lib.hellocharts.model.Viewport;
 import lecho.lib.hellocharts.util.ChartUtils;
+import lecho.lib.hellocharts.view.BubbleChartView;
 import lecho.lib.hellocharts.view.ColumnChartView;
 import lecho.lib.hellocharts.view.PreviewColumnChartView;
-
 
 
 public class DetailActivity extends AppCompatActivity {
@@ -61,6 +66,12 @@ public class DetailActivity extends AppCompatActivity {
         private ColumnChartView mColumnChartView;
         private PreviewColumnChartView mPreviewChart;
         private ColumnChartData mColumnChartData;
+        private BubbleChartView mBubbleChartView;
+        private BubbleChartData mBubbleChartData;
+        private ValueShape mBubbleShape = ValueShape.CIRCLE;
+
+        private int mNumYValues = 24;
+
         /**
          * Deep copy of mColumnChartData.
          */
@@ -77,6 +88,8 @@ public class DetailActivity extends AppCompatActivity {
 
             mColumnChartView = (ColumnChartView) rootView.findViewById(R.id.wind_column_chart_view);
             mPreviewChart = (PreviewColumnChartView) rootView.findViewById(R.id.chart_preview);
+            mBubbleChartView = (BubbleChartView) rootView.findViewById(R.id.wind_direction_bubble_chart_view);
+            mBubbleChartView.setOnValueTouchListener(new ValueTouchListener());
 
             // Generate mColumnChartData for previewed mColumnChartView and copy of that mColumnChartData for preview mColumnChartView.
 //            generateDefaultData();
@@ -92,6 +105,10 @@ public class DetailActivity extends AppCompatActivity {
             mPreviewChart.setViewportChangeListener(new ViewportListener());
 
             previewX(false);
+
+            // Generate mBubbleChartData
+            generateBubbleData();
+            mBubbleChartView.setBubbleChartData(mBubbleChartData);
 
             return rootView;
         }
@@ -136,13 +153,46 @@ public class DetailActivity extends AppCompatActivity {
             return super.onOptionsItemSelected(item);
         }
 
+        private void generateBubbleData() {
+
+            List<BubbleValue> values = new ArrayList<BubbleValue>();
+            for (int i = 0; i < mNumYValues; ++i) {
+//                BubbleValue value = new BubbleValue(i, (float) Math.random() * 100, (float) Math.random() * 1000);
+                BubbleValue value = new BubbleValue(i, 1, 1);
+                value.setColor(ChartUtils.pickColor());
+                value.setShape(mBubbleShape);
+                values.add(value);
+            }
+
+            mBubbleChartData = new BubbleChartData(values);
+            mBubbleChartData.setHasLabels(mHasAxes);
+            mBubbleChartData.setHasLabelsOnlyForSelected(mHasLabelForSelected);
+
+            if (mHasLabels) {
+                Axis axisX = new Axis();
+                Axis axisY = new Axis().setHasLines(false);
+                if (mHasAxesNames) {
+//                    axisX.setName("Axis X");
+                    axisY.setName(" ");
+                }
+                mBubbleChartData.setAxisXBottom(null);
+                mBubbleChartData.setAxisYLeft(axisY);
+            } else {
+                mBubbleChartData.setAxisXBottom(null);
+                mBubbleChartData.setAxisYLeft(null);
+            }
+
+            mBubbleChartView.setBubbleChartData(mBubbleChartData);
+
+        }
+
         private void generateStackedData() {
             int numSubcolumns = 2;
-            int numColumns = 24;
+            mNumYValues = 24;
             // Column can have many stacked sub-columns, here I use 4 stacked sub-column in each of 4 columns.
             List<Column> columns = new ArrayList<Column>();
             List<SubcolumnValue> subcolumnValues;
-            for (int i = 0; i < numColumns; ++i) {
+            for (int i = 0; i < mNumYValues; ++i) {
 
                 subcolumnValues = new ArrayList<SubcolumnValue>();
                 for (int j = 0; j < numSubcolumns; ++j) {
@@ -256,8 +306,21 @@ public class DetailActivity extends AppCompatActivity {
                 // don't use animation, it is unnecessary when using preview mColumnChartView because usually viewport changes
                 // happens to often.
                 mColumnChartView.setCurrentViewport(newViewport);
+                mBubbleChartView.setCurrentViewport(newViewport);
+            }
+        }
+
+        private class ValueTouchListener implements BubbleChartOnValueSelectListener {
+
+            @Override
+            public void onValueSelected(int bubbleIndex, BubbleValue value) {
+                Toast.makeText(getActivity(), "Selected: " + value, Toast.LENGTH_SHORT).show();
             }
 
+            @Override
+            public void onValueDeselected() {
+                // TODO Auto-generated method stub
+            }
         }
     }
 
