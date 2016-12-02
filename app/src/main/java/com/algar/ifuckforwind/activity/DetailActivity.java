@@ -27,6 +27,8 @@ import lecho.lib.hellocharts.util.ChartUtils;
 import lecho.lib.hellocharts.view.ColumnChartView;
 import lecho.lib.hellocharts.view.PreviewColumnChartView;
 
+
+
 public class DetailActivity extends AppCompatActivity {
 
     @Override
