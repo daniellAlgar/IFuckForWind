@@ -42,15 +42,19 @@ public class DetailActivity extends AppCompatActivity {
         setTitle(getIntent().getStringExtra(CardActivity.INTENT_LOCATION_NAME));
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().add(R.id.activity_detail_preview_column_chart, new PlaceholderFragment()).commit();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.activity_detail_wind_chart_frame_layout, new WindChartFragment())
+                    .commit();
         }
-
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
+    public static class WindChartFragment extends Fragment {
+
+        private boolean hasLabels = true;
+        private boolean hasLabelForSelected = true;
+        private boolean hasAxes = true;
+        private boolean hasAxesNames = true;
 
         private ColumnChartView chart;
         private PreviewColumnChartView previewChart;
@@ -60,7 +64,8 @@ public class DetailActivity extends AppCompatActivity {
          */
         private ColumnChartData previewData;
 
-        public PlaceholderFragment() {
+        public WindChartFragment() {
+            // Default empty constructor
         }
 
         @Override
@@ -72,7 +77,8 @@ public class DetailActivity extends AppCompatActivity {
             previewChart = (PreviewColumnChartView) rootView.findViewById(R.id.chart_preview);
 
             // Generate data for previewed chart and copy of that data for preview chart.
-            generateDefaultData();
+//            generateDefaultData();
+            generateStackedData();
 
             chart.setColumnChartData(data);
             // Disable zoom/scroll for previewed chart, visible chart ranges depends on preview chart viewport so
@@ -128,6 +134,56 @@ public class DetailActivity extends AppCompatActivity {
             return super.onOptionsItemSelected(item);
         }
 
+        private void generateStackedData() {
+            int numSubcolumns = 2;
+            int numColumns = 24;
+            // Column can have many stacked sub-columns, here I use 4 stacked sub-column in each of 4 columns.
+            List<Column> columns = new ArrayList<Column>();
+            List<SubcolumnValue> subcolumnValues;
+            for (int i = 0; i < numColumns; ++i) {
+
+                subcolumnValues = new ArrayList<SubcolumnValue>();
+                for (int j = 0; j < numSubcolumns; ++j) {
+                    subcolumnValues.add(new SubcolumnValue((float) Math.random() * 20f + 5, ChartUtils.pickColor()));
+                }
+
+                Column column = new Column(subcolumnValues);
+                column.setHasLabels(hasLabels);
+                column.setHasLabelsOnlyForSelected(hasLabelForSelected);
+                columns.add(column);
+            }
+
+            data = new ColumnChartData(columns);
+
+            // Set stacked flag.
+            data.setStacked(true);
+
+            // prepare preview data, is better to use separate deep copy for preview chart.
+            // set color to grey to make preview area more visible.
+            previewData = new ColumnChartData(data);
+            for (Column column : previewData.getColumns()) {
+                for (SubcolumnValue value : column.getValues()) {
+                    value.setColor(ChartUtils.DEFAULT_DARKEN_COLOR);
+                }
+            }
+
+            if (hasAxes) {
+                Axis axisX = new Axis();
+                Axis axisY = new Axis().setHasLines(true);
+                if (hasAxesNames) {
+                    axisX.setName("hour");
+                    axisY.setName("m/s");
+                }
+                data.setAxisXBottom(axisX);
+                data.setAxisYLeft(axisY);
+            } else {
+                data.setAxisXBottom(null);
+                data.setAxisYLeft(null);
+            }
+
+            chart.setColumnChartData(data);
+        }
+
         private void generateDefaultData() {
             int numSubcolumns = 1;
             int numColumns = 50;
@@ -137,7 +193,7 @@ public class DetailActivity extends AppCompatActivity {
 
                 values = new ArrayList<SubcolumnValue>();
                 for (int j = 0; j < numSubcolumns; ++j) {
-                    values.add(new SubcolumnValue((float) Math.random() * 50f + 5, ChartUtils.pickColor()));
+                    values.add(new SubcolumnValue((float) Math.random() * 40f + 5, ChartUtils.pickColor()));
                 }
 
                 columns.add(new Column(values));
@@ -155,7 +211,6 @@ public class DetailActivity extends AppCompatActivity {
                     value.setColor(ChartUtils.DEFAULT_DARKEN_COLOR);
                 }
             }
-
         }
 
         private void previewY() {

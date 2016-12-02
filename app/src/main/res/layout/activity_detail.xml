@@ -11,7 +11,7 @@
     tools:context="com.algar.ifuckforwind.activity.DetailActivity">
 
     <FrameLayout
-        android:id="@+id/activity_detail_preview_column_chart"
+        android:id="@+id/activity_detail_wind_chart_frame_layout"
         android:layout_width="match_parent"
         android:layout_height="200dp">
     </FrameLayout>
