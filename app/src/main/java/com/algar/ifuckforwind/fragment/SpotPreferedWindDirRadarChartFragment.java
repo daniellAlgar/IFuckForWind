@@ -15,7 +15,6 @@ import com.algar.ifuckforwind.R;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.RadarChart;
 import com.github.mikephil.charting.components.AxisBase;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -57,6 +56,7 @@ public class SpotPreferedWindDirRadarChartFragment extends Fragment {
         mChart.setWebLineWidthInner(1f);
         mChart.setWebColorInner(Color.LTGRAY);
         mChart.setWebAlpha(100);
+        mChart.getLegend().setEnabled(false);
 
         // create a custom MarkerView (extend MarkerView) and specify the layout
         // to use for it
@@ -97,58 +97,44 @@ public class SpotPreferedWindDirRadarChartFragment extends Fragment {
         yAxis.setAxisMaximum(80f);
         yAxis.setDrawLabels(false);
 
-        Legend l = mChart.getLegend();
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
-        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
-        l.setDrawInside(false);
-        l.setTypeface(mTfLight);
-        l.setXEntrySpace(7f);
-        l.setYEntrySpace(5f);
-        l.setTextColor(Color.WHITE);
+//        Legend l = mChart.getLegend();
+//        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+//        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+//        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+//        l.setDrawInside(false);
+//        l.setTypeface(mTfLight);
+//        l.setXEntrySpace(7f);
+//        l.setYEntrySpace(5f);
+//        l.setTextColor(Color.WHITE);
 
         return rootView;
     }
 
     public void setData() {
-        float mult = 80;
-        float min = 20;
-        int cnt = 8;
+        float scaleFactor = 10;
+        float min = 0;
+        int cnt = 8;        // TODO: Gör detta snyggare?
 
-        ArrayList<RadarEntry> entries1 = new ArrayList<RadarEntry>();
-//        ArrayList<RadarEntry> entries2 = new ArrayList<RadarEntry>();
+        ArrayList<RadarEntry> entries = new ArrayList<RadarEntry>();
 
         // NOTE: The order of the entries when being added to the entries array determines their position around the center of
         // the chart.
         for (int i = 0; i < cnt; i++) {
-            float val1 = (float) (Math.random() * mult) + min;
-            entries1.add(new RadarEntry(val1));
-
-//            float val2 = (float) (Math.random() * mult) + min;
-//            entries2.add(new RadarEntry(val2));
+            float val1 = (float) (Math.random() * scaleFactor) + min;
+            entries.add(new RadarEntry(val1));
         }
 
-        RadarDataSet set1 = new RadarDataSet(entries1, "Last Week");
-        set1.setColor(Color.rgb(103, 110, 129));
-        set1.setFillColor(Color.rgb(103, 110, 129));
-        set1.setDrawFilled(true);
-        set1.setFillAlpha(180);
-        set1.setLineWidth(2f);
-        set1.setDrawHighlightCircleEnabled(true);
-        set1.setDrawHighlightIndicators(false);
-
-//        RadarDataSet set2 = new RadarDataSet(entries2, "This Week");
-//        set2.setColor(Color.rgb(121, 162, 175));
-//        set2.setFillColor(Color.rgb(121, 162, 175));
-//        set2.setDrawFilled(true);
-//        set2.setFillAlpha(180);
-//        set2.setLineWidth(2f);
-//        set2.setDrawHighlightCircleEnabled(true);
-//        set2.setDrawHighlightIndicators(false);
+        RadarDataSet dataSet = new RadarDataSet(entries, null);
+        dataSet.setColor(Color.rgb(103, 110, 129));
+        dataSet.setFillColor(Color.rgb(103, 110, 129));
+        dataSet.setDrawFilled(true);
+        dataSet.setFillAlpha(180);
+        dataSet.setLineWidth(2f);
+        dataSet.setDrawHighlightCircleEnabled(true);
+        dataSet.setDrawHighlightIndicators(false);
 
         ArrayList<IRadarDataSet> sets = new ArrayList<IRadarDataSet>();
-        sets.add(set1);
-//        sets.add(set2);
+        sets.add(dataSet);
 
         RadarData data = new RadarData(sets);
         data.setValueTypeface(mTfLight);
