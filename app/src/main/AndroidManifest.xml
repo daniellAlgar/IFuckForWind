@@ -29,6 +29,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.CardActivity" />
         </activity>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyD6UIJ4VVRpz-DrznDeA76__63qjY98hSo"/>
     </application>
 
 </manifest>
