@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.algar.ifuckforwind.R;
+import com.algar.ifuckforwind.fragment.GoogleMapsFragment;
 import com.algar.ifuckforwind.fragment.SpotPreferredWindDirRadarChartFragment;
 import com.algar.ifuckforwind.fragment.WindChartFragment;
 
@@ -34,6 +35,11 @@ public class DetailActivity extends AppCompatActivity {
             getSupportFragmentManager()
                     .beginTransaction()
                     .add(R.id.activity_detail_wind_chart_frame_layout, new WindChartFragment())
+                    .commit();
+
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.activity_detail_map_frame_layout, new GoogleMapsFragment())
                     .commit();
         }
     }
