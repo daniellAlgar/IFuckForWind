@@ -60,7 +60,8 @@ dependencies {
     apt 'com.jakewharton:butterknife-compiler:8.3.0'
     compile 'me.relex:circleindicator:1.2.1@aar'
 
-//    compile 'com.github.lecho:hellocharts-library:1.5.8@aar'
     compile project(path: ':hellocharts-library')
     compile project(path: ':MPChartLib')
+
+    compile 'com.google.android.gms:play-services-maps:10.0.1'
 }

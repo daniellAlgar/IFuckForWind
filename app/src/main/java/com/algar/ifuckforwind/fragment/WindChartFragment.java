@@ -90,7 +90,7 @@ public class WindChartFragment extends Fragment {
         mPreviewChart.setColumnChartData(mPreviewData);
         mPreviewChart.setViewportChangeListener(new ViewportListener());
         previewX(true);
-        
+
         mPreviewChart.setContainerScrollEnabled(true, ContainerScrollType.VERTICAL);
         mPreviewChart.setContainerScrollEnabled(true, ContainerScrollType.HORIZONTAL);
 
