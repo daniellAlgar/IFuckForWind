@@ -19,6 +19,7 @@ import com.algar.ifuckforwind.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import lecho.lib.hellocharts.gesture.ContainerScrollType;
 import lecho.lib.hellocharts.gesture.ZoomType;
 import lecho.lib.hellocharts.listener.BubbleChartOnValueSelectListener;
 import lecho.lib.hellocharts.listener.ViewportChangeListener;
@@ -89,9 +90,12 @@ public class WindChartFragment extends Fragment {
         mPreviewChart.setColumnChartData(mPreviewData);
         mPreviewChart.setViewportChangeListener(new ViewportListener());
         previewX(true);
+        
+        mPreviewChart.setContainerScrollEnabled(true, ContainerScrollType.VERTICAL);
+        mPreviewChart.setContainerScrollEnabled(true, ContainerScrollType.HORIZONTAL);
 
         // Generate mBubbleChartData
-        setupArrows();
+        setupArrow();
         generateBubbleChartArrowData();
         mBubbleChartView.setBubbleChartData(mBubbleChartData);
 
@@ -166,7 +170,7 @@ public class WindChartFragment extends Fragment {
         return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
     }
 
-    private void setupArrows() {
+    private void setupArrow() {
         int scaleFactor = 8;
 
         mArrowBitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.wind_dir_arrow);

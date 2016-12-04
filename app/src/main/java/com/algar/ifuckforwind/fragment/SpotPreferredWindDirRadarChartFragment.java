@@ -63,10 +63,10 @@ public class SpotPreferredWindDirRadarChartFragment extends Fragment {
         mv.setChartView(mChart); // For bounds control
         mChart.setMarker(mv); // Set the marker to the chart
 
-        setData();
+        generateRandomData();
 
         mChart.animateXY(
-                1400, 1400,
+                1300, 1300,
                 Easing.EasingOption.EaseInOutQuad,
                 Easing.EasingOption.EaseInOutQuad);
 
@@ -100,7 +100,7 @@ public class SpotPreferredWindDirRadarChartFragment extends Fragment {
         return rootView;
     }
 
-    public void setData() {
+    public void generateRandomData() {
         float scaleFactor = 100;
         int nrOfWeatherDirections = 8;        // TODO: Gör detta snyggare?
 
